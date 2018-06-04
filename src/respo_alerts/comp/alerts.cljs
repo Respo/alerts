@@ -8,7 +8,8 @@
             [verbosely.core :refer [verbosely!]]
             [respo.comp.space :refer [=<]]
             [respo-alerts.config :refer [dev?]]
-            [respo-alerts.style :as style]))
+            [respo-alerts.style :as style]
+            [keycode.core :as keycode]))
 
 (defcomp
  comp-alert
@@ -76,16 +77,16 @@
       (input
        {:style (merge ui/input {:width "100%"}),
         :placeholder "",
+        :autofocus true,
         :value (:text state),
-        :on-input (fn [e d! m!] (m! (assoc state :text (:value e))))}))
+        :on-input (fn [e d! m!] (m! (assoc state :text (:value e)))),
+        :on-keydown (fn [e d! m!]
+          (when (= (:key-code e) keycode/return) (m! nil) (on-finish! (:text state) d! m!)))}))
      (=< nil 16)
      (div
       {:style ui/row-parted}
       (span nil)
       (button
        {:style ui/button,
-        :auto-focus true,
-        :on-click (fn [e d! m!]
-          (m! (assoc state :text nil))
-          (on-finish! (:text state) d! m!))}
-       (<> "Read")))))))
+        :on-click (fn [e d! m!] (m! nil) (on-finish! (:text state) d! m!))}
+       (<> "Finish")))))))
