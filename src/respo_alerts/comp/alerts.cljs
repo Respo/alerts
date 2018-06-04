@@ -61,7 +61,6 @@
 (defcomp
  comp-prompt
  (states content initial-text on-finish!)
- (assert (map? states) "should take states in the first argument")
  (assert (string? content) "content should be a string")
  (assert (string? initial-text) "initial-text should be a string")
  (assert (fn? on-finish!) "on-finish! a callback function")

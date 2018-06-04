@@ -1,7 +1,7 @@
 
 (def config {:clojars-user "jiyinyiyong"
              :package 'respo/alerts
-             :version "0.1.2"
+             :version "0.1.3"
              :github-url "https://github.com/Respo/alerts"
              :description "Respo alerts library"})
 

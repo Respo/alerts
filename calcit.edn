@@ -732,20 +732,6 @@
          "r" {:type :leaf, :by "root", :at 1528047255928, :text "on-finish!", :id "Bkm9qIsZg7"}
         }
        }
-       "o" {
-        :type :expr, :by "root", :at 1528127224228, :id "S1llZkJXxQ"
-        :data {
-         "T" {:type :leaf, :by "root", :at 1528127225888, :text "assert", :id "S1llZkJXxQleaf"}
-         "j" {
-          :type :expr, :by "root", :at 1528127226317, :id "r1QGbky7x7"
-          :data {
-           "T" {:type :leaf, :by "root", :at 1528127228060, :text "map?", :id "B1zM-yyXgm"}
-           "j" {:type :leaf, :by "root", :at 1528127228953, :text "states", :id "S1WV-JyQe7"}
-          }
-         }
-         "r" {:type :leaf, :by "root", :at 1528127241754, :text "\"should take states in the first argument", :id "rkLW1kXem"}
-        }
-       }
        "p" {
         :type :expr, :by "root", :at 1528126918321, :id "HJeN-CCfxQ"
         :data {
