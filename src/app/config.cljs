@@ -1,7 +1,8 @@
 
 (ns app.config )
 
-(def dev? (do ^boolean js/goog.DEBUG))
+(def dev?
+  (if (exists? js/window) (do ^boolean js/goog.DEBUG) (= (-> js/process .-env .-env) "dev")))
 
 (def site
   {:title "Alerts",
