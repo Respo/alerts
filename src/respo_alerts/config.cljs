@@ -1,5 +1,5 @@
 
-(ns app.config )
+(ns respo-alerts.config )
 
 (def dev?
   (if (exists? js/window) (do ^boolean js/goog.DEBUG) (= (-> js/process .-env .-env) "dev")))

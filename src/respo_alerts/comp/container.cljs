@@ -1,5 +1,5 @@
 
-(ns app.comp.container
+(ns respo-alerts.comp.container
   (:require [hsl.core :refer [hsl]]
             [respo-ui.core :as ui]
             [respo.macros
@@ -9,8 +9,8 @@
             [respo.comp.space :refer [=<]]
             [reel.comp.reel :refer [comp-reel]]
             [respo-md.comp.md :refer [comp-md]]
-            [app.config :refer [dev?]]
-            [app.comp.alerts :refer [comp-alert comp-confirm comp-prompt]]
+            [respo-alerts.config :refer [dev?]]
+            [respo-alerts.comp.alerts :refer [comp-alert comp-confirm comp-prompt]]
             [respo.comp.inspect :refer [comp-inspect]]))
 
 (defcomp
@@ -34,7 +34,7 @@
      (=< 8 nil)
      (button
       {:style ui/button, :on-click (fn [e d! m!] (m! (assoc state :show-prompt? true)))}
-      (<> "Alert")))
+      (<> "Prompt")))
     (when (:show-alert? state)
       (comp-alert
        "This would be a very long content of alerts, like some alerts..."

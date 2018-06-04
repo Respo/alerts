@@ -1,5 +1,5 @@
 
-(ns app.comp.alerts
+(ns respo-alerts.comp.alerts
   (:require [hsl.core :refer [hsl]]
             [respo-ui.core :as ui]
             [respo.macros
@@ -7,24 +7,19 @@
              [defcomp cursor-> action-> mutation-> <> div button textarea span input]]
             [verbosely.core :refer [verbosely!]]
             [respo.comp.space :refer [=<]]
-            [app.config :refer [dev?]]))
+            [respo-alerts.config :refer [dev?]]
+            [respo-alerts.style :as style]))
 
 (defcomp
  comp-alert
  (content on-read!)
+ (assert (string? content) "content should be a string")
+ (assert (fn? on-read!) "require a callback function")
  (div
-  {:style (merge ui/fullscreen ui/center {:background-color (hsl 0 0 0 0.2)}),
+  {:style (merge ui/fullscreen ui/center style/backdrop),
    :on-click (fn [e d! m!] (on-read! e d! m!))}
   (div
-   {:style (merge
-            ui/column
-            {:background-color (hsl 0 0 100),
-             :min-width 320,
-             :max-width "80vw",
-             :padding 16,
-             :border-radius "16px",
-             :color (hsl 0 0 0)}),
-    :on-click (fn [e d! m!] )}
+   {:style (merge ui/column style/card), :on-click (fn [e d! m!] )}
    (div {} (<> content))
    (=< nil 8)
    (div
@@ -37,18 +32,12 @@
 (defcomp
  comp-confirm
  (content on-confirm!)
+ (assert (string? content) "content should be a string")
+ (assert (fn? on-confirm!) "require a callback function")
  (div
-  {:style (merge ui/fullscreen ui/center {:background-color (hsl 0 0 0 0.2)})}
+  {:style (merge ui/fullscreen ui/center style/backdrop)}
   (div
-   {:style (merge
-            ui/column
-            {:background-color (hsl 0 0 100),
-             :min-width 320,
-             :max-width "80vw",
-             :padding 16,
-             :border-radius "16px",
-             :color (hsl 0 0 0)}),
-    :on-click (fn [e d! m!] )}
+   {:style (merge ui/column style/card), :on-click (fn [e d! m!] )}
    (div {} (<> content))
    (=< nil 8)
    (div
@@ -71,29 +60,25 @@
 (defcomp
  comp-prompt
  (states content initial-text on-finish!)
+ (assert (map? states) "should take states in the first argument")
+ (assert (string? content) "content should be a string")
+ (assert (string? initial-text) "initial-text should be a string")
+ (assert (fn? on-finish!) "on-finish! a callback function")
  (let [state (or (:data states) {:text initial-text})]
    (div
-    {:style (merge ui/fullscreen ui/center {:background-color (hsl 0 0 0 0.2)})}
+    {:style (merge ui/fullscreen ui/center style/backdrop)}
     (div
-     {:style (merge
-              ui/column
-              {:background-color (hsl 0 0 100),
-               :min-width 320,
-               :max-width "80vw",
-               :padding 16,
-               :border-radius "16px",
-               :color (hsl 0 0 0)}),
-      :on-click (fn [e d! m!] )}
+     {:style (merge ui/column style/card), :on-click (fn [e d! m!] )}
      (div {} (<> content))
      (=< nil 8)
      (div
       {}
       (input
-       {:style ui/input,
-        :placeholder initial-text,
+       {:style (merge ui/input {:width "100%"}),
+        :placeholder "",
         :value (:text state),
         :on-input (fn [e d! m!] (m! (assoc state :text (:value e))))}))
-     (=< nil 8)
+     (=< nil 16)
      (div
       {:style ui/row-parted}
       (span nil)

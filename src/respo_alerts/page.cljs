@@ -1,12 +1,12 @@
 
-(ns app.page
+(ns respo-alerts.page
   (:require [respo.render.html :refer [make-string]]
             [shell-page.core :refer [make-page spit slurp]]
-            [app.comp.container :refer [comp-container]]
-            [app.schema :as schema]
+            [respo-alerts.comp.container :refer [comp-container]]
+            [respo-alerts.schema :as schema]
             [reel.schema :as reel-schema]
             [cljs.reader :refer [read-string]]
-            [app.config :as config]))
+            [respo-alerts.config :as config]))
 
 (def base-info
   {:title (:title config/site), :icon (:icon config/site), :ssr nil, :inline-html nil})
