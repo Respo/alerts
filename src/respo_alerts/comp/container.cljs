@@ -18,15 +18,18 @@
  (reel)
  (let [store (:store reel)
        states (:states store)
-       state (or (:data states)
-                 {:show-alert? false, :show-confirm? false, :show-prompt? false})]
+       state (or (:data states) {:show-confirm? false, :show-prompt? false})]
    (div
     {:style (merge ui/global ui/row)}
     (div
      {:style {:padding 16}}
-     (button
-      {:style ui/button, :on-click (fn [e d! m!] (m! (assoc state :show-alert? true)))}
-      (<> "Alert"))
+     (cursor->
+      :alert
+      comp-alert
+      states
+      (button {:style ui/button} (<> "Alert"))
+      "This would be a very long content of alerts, like some alerts..."
+      (fn [e d! m!] (println "message has been read.")))
      (=< 8 nil)
      (button
       {:style ui/button, :on-click (fn [e d! m!] (m! (assoc state :show-confirm? true)))}
@@ -35,10 +38,6 @@
      (button
       {:style ui/button, :on-click (fn [e d! m!] (m! (assoc state :show-prompt? true)))}
       (<> "Prompt")))
-    (when (:show-alert? state)
-      (comp-alert
-       "This would be a very long content of alerts, like some alerts..."
-       (fn [e d! m!] (m! %cursor (assoc state :show-alert? false)))))
     (when (:show-confirm? state)
       (comp-confirm
        "This would be a very long content of alerts, like some confirmation..."

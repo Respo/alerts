@@ -13,22 +13,34 @@
 
 (defcomp
  comp-alert
- (content on-read!)
+ (states trigger content on-read!)
+ (assert (map? trigger) "need to use an element as trigger")
  (assert (string? content) "content should be a string")
  (assert (fn? on-read!) "require a callback function")
- (div
-  {:style (merge ui/fullscreen ui/center style/backdrop),
-   :on-click (fn [e d! m!] (on-read! e d! m!))}
-  (div
-   {:style (merge ui/column style/card), :on-click (fn [e d! m!] )}
-   (div {} (<> content))
-   (=< nil 8)
-   (div
-    {:style ui/row-parted}
-    (span nil)
-    (button
-     {:style ui/button, :auto-focus true, :on-click (fn [e d! m!] (on-read! e d! m!))}
-     (<> "Read"))))))
+ (let [state (or (:data states) {:show? false})]
+   (span
+    {:on-click (fn [e d! m!] (m! (assoc state :show? true)))}
+    trigger
+    (when (:show? state)
+      (div
+       {:style (merge ui/fullscreen ui/center style/backdrop),
+        :on-click (fn [e d! m!]
+          (let [event (:event e)]
+            (.stopPropagation event)
+            (on-read! e d! m!)
+            (m! (assoc state :show? false))))}
+       (div
+        {:style (merge ui/column style/card), :on-click (fn [e d! m!] )}
+        (div {} (<> content))
+        (=< nil 8)
+        (div
+         {:style ui/row-parted}
+         (span nil)
+         (button
+          {:style ui/button,
+           :auto-focus true,
+           :on-click (fn [e d! m!] (on-read! e d! m!) (m! (assoc state :show? false)))}
+          (<> "Read")))))))))
 
 (defcomp
  comp-confirm
