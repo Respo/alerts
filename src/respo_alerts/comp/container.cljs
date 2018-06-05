@@ -16,9 +16,7 @@
 (defcomp
  comp-container
  (reel)
- (let [store (:store reel)
-       states (:states store)
-       state (or (:data states) {:show-prompt? false})]
+ (let [store (:store reel), states (:states store)]
    (div
     {:style (merge ui/global ui/row)}
     (div
@@ -39,18 +37,13 @@
       "This would be a very long content of alerts, like some confirmation..."
       (fn [result d! m!] (println "confirm!" result)))
      (=< 8 nil)
-     (button
-      {:style ui/button, :on-click (fn [e d! m!] (m! (assoc state :show-prompt? true)))}
-      (<> "Prompt")))
-    (when (:show-prompt? state)
-      (cursor->
-       :prompt
-       comp-prompt
-       states
-       "This would be a very long content of alerts, like some prompt... pick number:"
-       (str (rand-int 100))
-       (fn [result d! m!]
-         (m! %cursor (assoc state :show-prompt? false))
-         (println "finish editing!" result))))
-    (comment when dev? (comp-inspect "state" state nil))
+     (cursor->
+      :prompt
+      comp-prompt
+      states
+      (button {:style ui/button} (<> "Prompt"))
+      "This would be a very long content of alerts, like some prompt... pick number:"
+      (str (rand-int 100))
+      (fn [result d! m!] (println "finish editing!" result))))
+    (comment when dev? (comp-inspect "states" states nil))
     (when dev? (cursor-> :reel comp-reel states reel {})))))

@@ -82,32 +82,43 @@
 
 (defcomp
  comp-prompt
- (states content initial-text on-finish!)
+ (states trigger content initial-text on-finish!)
+ (assert (map? trigger) "need to use an element as trigger")
  (assert (string? content) "content should be a string")
  (assert (string? initial-text) "initial-text should be a string")
  (assert (fn? on-finish!) "on-finish! a callback function")
- (let [state (or (:data states) {:text initial-text})]
-   (div
-    {:style (merge ui/fullscreen ui/center style/backdrop)}
-    (div
-     {:style (merge ui/column style/card), :on-click (fn [e d! m!] )}
-     (div {} (<> content))
-     (=< nil 8)
-     (div
-      {}
-      (input
-       {:style (merge ui/input {:width "100%"}),
-        :placeholder "",
-        :autofocus true,
-        :value (:text state),
-        :on-input (fn [e d! m!] (m! (assoc state :text (:value e)))),
-        :on-keydown (fn [e d! m!]
-          (when (= (:key-code e) keycode/return) (m! nil) (on-finish! (:text state) d! m!)))}))
-     (=< nil 16)
-     (div
-      {:style ui/row-parted}
-      (span nil)
-      (button
-       {:style ui/button,
-        :on-click (fn [e d! m!] (m! nil) (on-finish! (:text state) d! m!))}
-       (<> "Finish")))))))
+ (let [state (or (:data states) {:text initial-text, :show? false})
+       text (or (:text state) initial-text)]
+   (span
+    {:on-click (fn [e d! m!] (m! (assoc state :show? true)))}
+    trigger
+    (if (:show? state)
+      (div
+       {:style (merge ui/fullscreen ui/center style/backdrop),
+        :on-click (fn [e d! m!] (m! (assoc state :show? false)))}
+       (div
+        {:style (merge ui/column style/card), :on-click (fn [e d! m!] )}
+        (div {} (<> content))
+        (=< nil 8)
+        (div
+         {}
+         (input
+          {:style (merge ui/input {:width "100%"}),
+           :placeholder "",
+           :autofocus true,
+           :value text,
+           :on-input (fn [e d! m!] (m! (assoc state :text (:value e)))),
+           :on-keydown (fn [e d! m!]
+             (when (= (:key-code e) keycode/return)
+               (on-finish! text d! m!)
+               (m! (assoc state :show? false :text nil))))}))
+        (=< nil 16)
+        (div
+         {:style ui/row-parted}
+         (span nil)
+         (button
+          {:style ui/button,
+           :on-click (fn [e d! m!]
+             (on-finish! text d! m!)
+             (m! (assoc state :show? false :text nil)))}
+          (<> "Finish")))))))))
