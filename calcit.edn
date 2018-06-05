@@ -1845,6 +1845,45 @@
      }
     }
     :defs {
+     "comp-button" {
+      :type :expr, :by "root", :at 1528217262292, :id "Hye83RNEem"
+      :data {
+       "T" {:type :leaf, :by "root", :at 1528217265888, :text "defcomp", :id "HyWU3AN4xX"}
+       "j" {:type :leaf, :by "root", :at 1528217262292, :text "comp-button", :id "BkfI2AEEgX"}
+       "n" {
+        :type :expr, :by "root", :at 1528217267201, :id "SkjhRENgX"
+        :data {
+         "T" {:type :leaf, :by "root", :at 1528217268013, :text "text", :id "Hybqn0E4em"}
+        }
+       }
+       "r" {
+        :type :expr, :by "root", :at 1528217262292, :id "SJ7Un04Vem"
+        :data {
+         "T" {:type :leaf, :by "root", :at 1528217262292, :text "button", :id "SkNLh04Egm"}
+         "j" {
+          :type :expr, :by "root", :at 1528217262292, :id "Syr820ENlQ"
+          :data {
+           "T" {:type :leaf, :by "root", :at 1528217262292, :text "{}", :id "HyIL2C44gX"}
+           "j" {
+            :type :expr, :by "root", :at 1528217262292, :id "BJv820EVl7"
+            :data {
+             "T" {:type :leaf, :by "root", :at 1528217262292, :text ":style", :id "r1uI20VEg7"}
+             "j" {:type :leaf, :by "root", :at 1528217262292, :text "ui/button", :id "ByY8nAV4lX"}
+            }
+           }
+          }
+         }
+         "r" {
+          :type :expr, :by "root", :at 1528217262292, :id "ryqU2R4NgQ"
+          :data {
+           "T" {:type :leaf, :by "root", :at 1528217262292, :text "<>", :id "ByjI2CE4l7"}
+           "j" {:type :leaf, :by "root", :at 1528217270966, :text "text", :id "S13IhANVlX"}
+          }
+         }
+        }
+       }
+      }
+     }
      "comp-container" {
       :type :expr, :time 1499755354983, :id "BJ2WiOF9pBW"
       :data {
@@ -1952,29 +1991,10 @@
                "T" {:type :leaf, :by "root", :at 1528046345579, :text "comp-alert", :id "SkxMQoWl7leaf"}
                "X" {:type :leaf, :by "root", :at 1528215852545, :text "states", :id "HJeV4YNNe7"}
                "b" {
-                :type :expr, :by "root", :at 1528046230081, :id "SJ74tEExQ"
+                :type :expr, :by "root", :at 1528217272634, :id "rk-pA4Vg7"
                 :data {
-                 "T" {:type :leaf, :by "root", :at 1528046234220, :text "button", :id "Byx05MoblXleaf"}
-                 "j" {
-                  :type :expr, :by "root", :at 1528046234611, :id "H1xQiGoWlQ"
-                  :data {
-                   "T" {:type :leaf, :by "root", :at 1528046237869, :text "{}", :id "HyZfsMiZgX"}
-                   "j" {
-                    :type :expr, :by "root", :at 1528046238999, :id "rJPsGiblX"
-                    :data {
-                     "T" {:type :leaf, :by "root", :at 1528046243663, :text ":style", :id "rJxUsfoWxm"}
-                     "j" {:type :leaf, :by "root", :at 1528046245057, :text "ui/button", :id "HJxhjzsZeX"}
-                    }
-                   }
-                  }
-                 }
-                 "r" {
-                  :type :expr, :by "root", :at 1528046246191, :id "HJZCjMsWgX"
-                  :data {
-                   "T" {:type :leaf, :by "root", :at 1528046246496, :text "<>", :id "HJZCjMsWgXleaf"}
-                   "j" {:type :leaf, :by "root", :at 1528046248871, :text "\"Alert", :id "SJJ2MjZx7"}
-                  }
-                 }
+                 "T" {:type :leaf, :by "root", :at 1528217262292, :text "comp-button", :id "ByaI2A4Exm"}
+                 "j" {:type :leaf, :by "root", :at 1528217273286, :text "\"Alert", :id "Byg-pRE4g7"}
                 }
                }
                "j" {:type :leaf, :by "root", :at 1528046830112, :text "\"This would be a very long content of alerts, like some alerts...", :id "BylGGQsbx7"}
@@ -2017,29 +2037,10 @@
                "T" {:type :leaf, :by "root", :at 1528046900783, :text "comp-confirm", :id "SkxMQoWl7leaf"}
                "b" {:type :leaf, :by "root", :at 1528216291858, :text "states", :id "BkbqkjNVxm"}
                "f" {
-                :type :expr, :by "root", :at 1528046230081, :id "BycloEVgX"
+                :type :expr, :by "root", :at 1528046246191, :id "HJiTAVVlQ"
                 :data {
-                 "T" {:type :leaf, :by "root", :at 1528046234220, :text "button", :id "Byx05MoblXleaf"}
-                 "j" {
-                  :type :expr, :by "root", :at 1528046234611, :id "H1xQiGoWlQ"
-                  :data {
-                   "T" {:type :leaf, :by "root", :at 1528046237869, :text "{}", :id "HyZfsMiZgX"}
-                   "j" {
-                    :type :expr, :by "root", :at 1528046238999, :id "rJPsGiblX"
-                    :data {
-                     "T" {:type :leaf, :by "root", :at 1528046243663, :text ":style", :id "rJxUsfoWxm"}
-                     "j" {:type :leaf, :by "root", :at 1528046245057, :text "ui/button", :id "HJxhjzsZeX"}
-                    }
-                   }
-                  }
-                 }
-                 "r" {
-                  :type :expr, :by "root", :at 1528046246191, :id "HJZCjMsWgX"
-                  :data {
-                   "T" {:type :leaf, :by "root", :at 1528046246496, :text "<>", :id "HJZCjMsWgXleaf"}
-                   "j" {:type :leaf, :by "root", :at 1528046878096, :text "\"Confirm", :id "SJJ2MjZx7"}
-                  }
-                 }
+                 "T" {:type :leaf, :by "root", :at 1528217281420, :text "comp-button", :id "HJZCjMsWgXleaf"}
+                 "j" {:type :leaf, :by "root", :at 1528046878096, :text "\"Confirm", :id "SJJ2MjZx7"}
                 }
                }
                "j" {:type :leaf, :by "root", :at 1528046937609, :text "\"This would be a very long content of alerts, like some confirmation...", :id "BylGGQsbx7"}
@@ -2083,29 +2084,10 @@
                "T" {:type :leaf, :by "root", :at 1528047162024, :text "comp-prompt", :id "SkxMQoWl7leaf"}
                "b" {:type :leaf, :by "root", :at 1528047277311, :text "states", :id "ryrh8obxm"}
                "f" {
-                :type :expr, :by "root", :at 1528046230081, :id "ByxkH0NNe7"
+                :type :expr, :by "root", :at 1528046246191, :id "r1-HCA4ElQ"
                 :data {
-                 "T" {:type :leaf, :by "root", :at 1528046234220, :text "button", :id "Byx05MoblXleaf"}
-                 "j" {
-                  :type :expr, :by "root", :at 1528046234611, :id "H1xQiGoWlQ"
-                  :data {
-                   "T" {:type :leaf, :by "root", :at 1528046237869, :text "{}", :id "HyZfsMiZgX"}
-                   "j" {
-                    :type :expr, :by "root", :at 1528046238999, :id "rJPsGiblX"
-                    :data {
-                     "T" {:type :leaf, :by "root", :at 1528046243663, :text ":style", :id "rJxUsfoWxm"}
-                     "j" {:type :leaf, :by "root", :at 1528046245057, :text "ui/button", :id "HJxhjzsZeX"}
-                    }
-                   }
-                  }
-                 }
-                 "r" {
-                  :type :expr, :by "root", :at 1528046246191, :id "HJZCjMsWgX"
-                  :data {
-                   "T" {:type :leaf, :by "root", :at 1528046246496, :text "<>", :id "HJZCjMsWgXleaf"}
-                   "j" {:type :leaf, :by "root", :at 1528124915639, :text "\"Prompt", :id "SJJ2MjZx7"}
-                  }
-                 }
+                 "T" {:type :leaf, :by "root", :at 1528217292204, :text "comp-button", :id "HJZCjMsWgXleaf"}
+                 "j" {:type :leaf, :by "root", :at 1528124915639, :text "\"Prompt", :id "SJJ2MjZx7"}
                 }
                }
                "j" {:type :leaf, :by "root", :at 1528047454722, :text "\"This would be a very long content of alerts, like some prompt... pick number:", :id "BylGGQsbx7"}

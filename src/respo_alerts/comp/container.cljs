@@ -13,6 +13,8 @@
             [respo-alerts.comp.alerts :refer [comp-alert comp-confirm comp-prompt]]
             [respo.comp.inspect :refer [comp-inspect]]))
 
+(defcomp comp-button (text) (button {:style ui/button} (<> text)))
+
 (defcomp
  comp-container
  (reel)
@@ -25,7 +27,7 @@
       :alert
       comp-alert
       states
-      (button {:style ui/button} (<> "Alert"))
+      (comp-button "Alert")
       "This would be a very long content of alerts, like some alerts..."
       (fn [e d! m!] (println "message has been read.")))
      (=< 8 nil)
@@ -33,7 +35,7 @@
       :confirm
       comp-confirm
       states
-      (button {:style ui/button} (<> "Confirm"))
+      (comp-button "Confirm")
       "This would be a very long content of alerts, like some confirmation..."
       (fn [result d! m!] (println "confirm!" result)))
      (=< 8 nil)
@@ -41,7 +43,7 @@
       :prompt
       comp-prompt
       states
-      (button {:style ui/button} (<> "Prompt"))
+      (comp-button "Prompt")
       "This would be a very long content of alerts, like some prompt... pick number:"
       (str (rand-int 100))
       (fn [result d! m!] (println "finish editing!" result))))
