@@ -19,7 +19,7 @@
  (assert (fn? on-read!) "require a callback function")
  (let [state (or (:data states) {:show? false})]
    (span
-    {:on-click (fn [e d! m!] (m! (assoc state :show? true)))}
+    {:style {:cursor :pointer}, :on-click (fn [e d! m!] (m! (assoc state :show? true)))}
     trigger
     (when (:show? state)
       (div
@@ -50,7 +50,7 @@
  (assert (fn? on-confirm!) "require a callback function")
  (let [state (or (:data states) {:show? false})]
    (span
-    {:on-click (fn [e d! m!] (m! (assoc state :show? true)))}
+    {:style {:cursor :pointer}, :on-click (fn [e d! m!] (m! (assoc state :show? true)))}
     trigger
     (when (:show? state)
       (div
@@ -90,7 +90,7 @@
  (let [state (or (:data states) {:text initial-text, :show? false})
        text (or (:text state) initial-text)]
    (span
-    {:on-click (fn [e d! m!] (m! (assoc state :show? true)))}
+    {:style {:cursor :pointer}, :on-click (fn [e d! m!] (m! (assoc state :show? true)))}
     trigger
     (if (:show? state)
       (div
