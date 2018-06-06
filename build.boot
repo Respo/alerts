@@ -1,23 +1,27 @@
 
+(def config {:clojars-user "jiyinyiyong"
+             :package 'respo/alerts
+             :version "0.2.1"
+             :github-url "https://github.com/Respo/alerts"
+             :description "Respo alerts library"})
+
 (defn read-password [guide]
   (String/valueOf (.readPassword (System/console) guide nil)))
 
 (set-env!
   :resource-paths #{"src"}
-  :dependencies '[]
+  :dependencies '[[mvc-works/keycode      "0.1.3"]]
   :repositories #(conj % ["clojars" {:url "https://clojars.org/repo/"
-                                     :username "jiyinyiyong"
+                                     :username (:clojars-user config)
                                      :password (read-password "Clojars password: ")}]))
-
-(def +version+ "0.1.0")
 
 (deftask deploy []
   (comp
-    (pom :project     'respo/alerts
-         :version     +version+
-         :description "Workflow"
-         :url         "https://github.com/Respo/alerts"
-         :scm         {:url "https://github.com/Respo/alerts"}
+    (pom :project     (:package config)
+         :version     (:version config)
+         :description (:description config)
+         :url         (:github-url config)
+         :scm         {:url (:github-url config)}
          :license     {"MIT" "http://opensource.org/licenses/mit-license.php"})
     (jar)
     (install)

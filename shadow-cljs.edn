@@ -14,8 +14,8 @@
  :builds {:client {:target :browser
                    :output-dir "target/"
                    :asset-path "./"
-                   :modules {:main {:entries [app.main]}}
-                   :devtools {:after-load app.main/reload!
+                   :modules {:main {:entries [respo-alerts.main]}}
+                   :devtools {:after-load respo-alerts.main/reload!
                               :http-root "target"
                               :http-port 7000}
                    :compiler-options {:infer-externs :auto}
@@ -24,5 +24,5 @@
                              :build-options {:manifest-name "assets.edn"}}}
           :page {:target :node-script
                  :output-to "target/page.js"
-                 :main app.page/main!
-                 :devtools {:after-load app.page/main!}}}}
+                 :main respo-alerts.page/main!
+                 :devtools {:after-load respo-alerts.page/main!}}}}

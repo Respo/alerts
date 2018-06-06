@@ -1,14 +1,14 @@
 
-(ns app.main
+(ns respo-alerts.main
   (:require [respo.core :refer [render! clear-cache! realize-ssr!]]
-            [app.comp.container :refer [comp-container]]
-            [app.updater :refer [updater]]
-            [app.schema :as schema]
+            [respo-alerts.comp.container :refer [comp-container]]
+            [respo-alerts.updater :refer [updater]]
+            [respo-alerts.schema :as schema]
             [reel.util :refer [listen-devtools!]]
             [reel.core :refer [reel-updater refresh-reel]]
             [reel.schema :as reel-schema]
             [cljs.reader :refer [read-string]]
-            [app.config :as config]))
+            [respo-alerts.config :as config]))
 
 (defonce *reel
   (atom (-> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store))))
