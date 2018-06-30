@@ -9,7 +9,7 @@ Alerts
 [![Clojars Project](https://img.shields.io/clojars/v/respo/alerts.svg)](https://clojars.org/respo/alerts)
 
 ```edn
-[respo/alerts "0.2.1"]
+[respo/alerts "0.2.2"]
 ```
 
 This library provides several UI components, so you need to control their visibilities with your own states, for example: `{:show-alert? true}`.
