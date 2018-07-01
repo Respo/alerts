@@ -3878,6 +3878,13 @@
            }
           }
          }
+         "v" {
+          :type :expr, :by "root", :at 1530457370742, :id "H1xXQaPUf7"
+          :data {
+           "T" {:type :leaf, :by "root", :at 1530457372104, :text ":position", :id "H1xXQaPUf7leaf"}
+           "j" {:type :leaf, :by "root", :at 1530457412828, :text ":fixed", :id "SJNNQ6DIzQ"}
+          }
+         }
         }
        }
       }
