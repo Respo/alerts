@@ -3885,6 +3885,13 @@
            "j" {:type :leaf, :by "root", :at 1530457412828, :text ":fixed", :id "SJNNQ6DIzQ"}
           }
          }
+         "x" {
+          :type :expr, :by "root", :at 1530457788210, :id "SygEaAvLzm"
+          :data {
+           "T" {:type :leaf, :by "root", :at 1530457790693, :text ":z-index", :id "SygEaAvLzmleaf"}
+           "j" {:type :leaf, :by "root", :at 1530457792100, :text "999", :id "HyWvpAD8f7"}
+          }
+         }
         }
        }
       }
