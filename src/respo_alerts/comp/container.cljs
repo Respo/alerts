@@ -47,5 +47,5 @@
       "This would be a very long content of alerts, like some prompt... pick number:"
       (str (rand-int 100))
       (fn [result d! m!] (println "finish editing!" result))))
-    (comment when dev? (comp-inspect "states" states nil))
+    (when dev? (comp-inspect "states" states {:bottom 0}))
     (when dev? (cursor-> :reel comp-reel states reel {})))))

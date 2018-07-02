@@ -2420,7 +2420,6 @@
            "v" {
             :type :expr, :by "root", :at 1528046410123, :id "rylzI7oWxQ"
             :data {
-             "D" {:type :leaf, :by "root", :at 1528046850055, :text ";", :id "Hk5WHobxX"}
              "T" {:type :leaf, :by "root", :at 1528046411967, :text "when", :id "rylzI7oWxQleaf"}
              "j" {:type :leaf, :by "root", :at 1528046453319, :text "dev?", :id "BkfNUXo-g7"}
              "r" {
@@ -2429,7 +2428,19 @@
                "T" {:type :leaf, :by "root", :at 1528046418148, :text "comp-inspect", :id "SkxB8Xsbgm"}
                "b" {:type :leaf, :by "root", :at 1528217164431, :text "\"states", :id "rkkYQs-eX"}
                "j" {:type :leaf, :by "root", :at 1528217162732, :text "states", :id "rk45ImoWlQ"}
-               "r" {:type :leaf, :by "root", :at 1528046424848, :text "nil", :id "ByNxv7sbxX"}
+               "r" {
+                :type :expr, :by "root", :at 1530555034768, :id "BJx7sq1uGQ"
+                :data {
+                 "T" {:type :leaf, :by "root", :at 1530555036708, :text "{}", :id "ByNxv7sbxX"}
+                 "j" {
+                  :type :expr, :by "root", :at 1530555037048, :id "SkMri51_M7"
+                  :data {
+                   "T" {:type :leaf, :by "root", :at 1530555039987, :text ":bottom", :id "rk-rj9yuMm"}
+                   "j" {:type :leaf, :by "root", :at 1530555041304, :text "0", :id "ryXdj51Ozm"}
+                  }
+                 }
+                }
+               }
               }
              }
             }
@@ -3924,7 +3935,7 @@
           :type :expr, :by "root", :at 1528046560824, :id "H1eKkEo-eQ"
           :data {
            "T" {:type :leaf, :by "root", :at 1528046563441, :text ":min-width", :id "H1eKkEo-eQleaf"}
-           "j" {:type :leaf, :by "root", :at 1528046577733, :text "320", :id "Sk214jWe7"}
+           "j" {:type :leaf, :by "root", :at 1530555048706, :text "480", :id "Sk214jWe7"}
           }
          }
          "t" {
@@ -3945,7 +3956,7 @@
           :type :expr, :by "root", :at 1528046581576, :id "Sy0g4iZe7"
           :data {
            "T" {:type :leaf, :by "root", :at 1528046583414, :text ":border-radius", :id "Sy0g4iZe7leaf"}
-           "j" {:type :leaf, :by "root", :at 1528046592395, :text "\"16px", :id "r1gZ4jblQ"}
+           "j" {:type :leaf, :by "root", :at 1530555052268, :text "\"4px", :id "r1gZ4jblQ"}
           }
          }
          "y" {
