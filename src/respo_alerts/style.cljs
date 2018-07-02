@@ -1,7 +1,7 @@
 
 (ns respo-alerts.style (:require [hsl.core :refer [hsl]]))
 
-(def backdrop {:background-color (hsl 0 30 10 0.6)})
+(def backdrop {:background-color (hsl 0 30 10 0.6), :position :fixed, :z-index 999})
 
 (def card
   {:background-color (hsl 0 0 100),

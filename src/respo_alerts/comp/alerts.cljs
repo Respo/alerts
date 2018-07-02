@@ -9,7 +9,8 @@
             [respo.comp.space :refer [=<]]
             [respo-alerts.config :refer [dev?]]
             [respo-alerts.style :as style]
-            [keycode.core :as keycode]))
+            [keycode.core :as keycode]
+            [respo-alerts.schema :as schema]))
 
 (defcomp
  comp-alert
@@ -19,7 +20,14 @@
  (assert (fn? on-read!) "require a callback function")
  (let [state (or (:data states) {:show? false})]
    (span
-    {:style {:cursor :pointer}, :on-click (fn [e d! m!] (m! (assoc state :show? true)))}
+    {:style {:cursor :pointer},
+     :on-click (fn [e d! m!]
+       (m! (assoc state :show? true))
+       (js/setTimeout
+        (fn []
+          (let [target (.querySelector js/document (str "." schema/confirm-button-name))]
+            (if (some? target) (.focus target))))
+        50))}
     trigger
     (when (:show? state)
       (div
@@ -38,6 +46,7 @@
          (span nil)
          (button
           {:style ui/button,
+           :class-name schema/confirm-button-name,
            :auto-focus true,
            :on-click (fn [e d! m!] (on-read! e d! m!) (m! (assoc state :show? false)))}
           (<> "Read")))))))))
@@ -50,7 +59,14 @@
  (assert (fn? on-confirm!) "require a callback function")
  (let [state (or (:data states) {:show? false})]
    (span
-    {:style {:cursor :pointer}, :on-click (fn [e d! m!] (m! (assoc state :show? true)))}
+    {:style {:cursor :pointer},
+     :on-click (fn [e d! m!]
+       (m! (assoc state :show? true))
+       (js/setTimeout
+        (fn []
+          (let [target (.querySelector js/document (str "." schema/confirm-button-name))]
+            (if (some? target) (.focus target))))
+        50))}
     trigger
     (when (:show? state)
       (div
@@ -75,6 +91,7 @@
           (button
            {:style ui/button,
             :auto-focus true,
+            :class-name schema/confirm-button-name,
             :on-click (fn [e d! m!]
               (on-confirm! true d! m!)
               (m! (assoc state :show? false)))}
@@ -90,7 +107,14 @@
  (let [state (or (:data states) {:text initial-text, :show? false})
        text (or (:text state) initial-text)]
    (span
-    {:style {:cursor :pointer}, :on-click (fn [e d! m!] (m! (assoc state :show? true)))}
+    {:style {:cursor :pointer},
+     :on-click (fn [e d! m!]
+       (m! (assoc state :show? true))
+       (js/setTimeout
+        (fn []
+          (let [target (.querySelector js/document (str "." schema/input-box-name))]
+            (if (some? target) (.select target))))
+        50))}
     trigger
     (if (:show? state)
       (div
@@ -104,8 +128,8 @@
          {}
          (input
           {:style (merge ui/input {:width "100%"}),
+           :class-name schema/input-box-name,
            :placeholder "",
-           :autofocus true,
            :value text,
            :on-input (fn [e d! m!] (m! (assoc state :text (:value e)))),
            :on-keydown (fn [e d! m!]
