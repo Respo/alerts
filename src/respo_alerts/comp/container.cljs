@@ -29,14 +29,14 @@
       states
       {:trigger (comp-button "Alert"),
        :text "This would be a very long content of alerts, like some alerts...",
-       :style nil}
+       :style {}}
       (fn [e d! m!] (println "message has been read.")))
      (=< 8 nil)
      (cursor->
       :confirm
       comp-confirm
       states
-      {:style nil,
+      {:style {},
        :trigger (comp-button "Confirm"),
        :text "This would be a very long content of alerts, like some confirmation..."}
       (fn [result d! m!] (println "confirm!" result)))
@@ -47,7 +47,8 @@
       states
       {:trigger (comp-button "Prompt"),
        :text "This would be a very long content of alerts, like some prompt... pick number:",
-       :initial (str (rand-int 100))}
+       :initial (str (rand-int 100)),
+       :style {}}
       (fn [result d! m!] (println "finish editing!" result))))
     (when dev? (comp-inspect "states" states {:bottom 0}))
     (when dev? (cursor-> :reel comp-reel states reel {})))))

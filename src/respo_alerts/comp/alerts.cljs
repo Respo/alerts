@@ -22,7 +22,7 @@
        state (or (:data states) {:show? false})]
    (assert (map? trigger) "need to use an element as trigger")
    (span
-    {:style (merge {:cursor :pointer} (:style options)),
+    {:style (merge {:cursor :pointer, :display :inline-block} (:style options)),
      :on-click (fn [e d! m!]
        (m! (assoc state :show? true))
        (focus-later! (str "." schema/confirm-button-name)))}
@@ -57,7 +57,7 @@
        state (or (:data states) {:show? false})]
    (assert (map? trigger) "need to use an element as trigger")
    (span
-    {:style (merge {:cursor :pointer} (:style options)),
+    {:style (merge {:cursor :pointer, :display :inline-block} (:style options)),
      :on-click (fn [e d! m!]
        (m! (assoc state :show? true))
        (focus-later! (str "." schema/confirm-button-name)))}
@@ -90,7 +90,7 @@
        text (or (:text state) initial-text)]
    (assert (map? trigger) "need to use an element as trigger")
    (span
-    {:style (merge {:cursor :pointer} (:style options)),
+    {:style (merge {:cursor :pointer, :display :inline-block} (:style options)),
      :on-click (fn [e d! m!]
        (m! (assoc state :show? true))
        (focus-later! (str "." schema/input-box-name)))}

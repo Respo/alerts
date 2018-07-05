@@ -295,6 +295,13 @@
                      "j" {:type :leaf, :by "root", :at 1528219153885, :text ":pointer", :id "HkldGLH4gQ"}
                     }
                    }
+                   "r" {
+                    :type :expr, :by "root", :at 1530812483750, :id "r1e3rOCof7"
+                    :data {
+                     "D" {:type :leaf, :by "root", :at 1530812491546, :text ":display", :id "H1W8uRjMX"}
+                     "T" {:type :leaf, :by "root", :at 1530812487217, :text ":inline-block", :id "r1e3rOCof7leaf"}
+                    }
+                   }
                   }
                  }
                  "j" {
@@ -797,6 +804,13 @@
                     :data {
                      "T" {:type :leaf, :by "root", :at 1528219151873, :text ":cursor", :id "S1XHfISEx7"}
                      "j" {:type :leaf, :by "root", :at 1528219153885, :text ":pointer", :id "HkldGLH4gQ"}
+                    }
+                   }
+                   "r" {
+                    :type :expr, :by "root", :at 1530812483750, :id "SyZJDu0oMQ"
+                    :data {
+                     "D" {:type :leaf, :by "root", :at 1530812491546, :text ":display", :id "H1W8uRjMX"}
+                     "T" {:type :leaf, :by "root", :at 1530812487217, :text ":inline-block", :id "r1e3rOCof7leaf"}
                     }
                    }
                   }
@@ -1315,6 +1329,13 @@
                     :data {
                      "T" {:type :leaf, :by "root", :at 1528219151873, :text ":cursor", :id "S1XHfISEx7"}
                      "j" {:type :leaf, :by "root", :at 1528219153885, :text ":pointer", :id "HkldGLH4gQ"}
+                    }
+                   }
+                   "r" {
+                    :type :expr, :by "root", :at 1530812483750, :id "Ski8uAjz7"
+                    :data {
+                     "D" {:type :leaf, :by "root", :at 1530812491546, :text ":display", :id "H1W8uRjMX"}
+                     "T" {:type :leaf, :by "root", :at 1530812487217, :text ":inline-block", :id "r1e3rOCof7leaf"}
                     }
                    }
                   }
@@ -2168,7 +2189,12 @@
                   :type :expr, :by "root", :at 1530810684303, :id "HJe4rbCsGX"
                   :data {
                    "T" {:type :leaf, :by "root", :at 1530810685526, :text ":style", :id "HJe4rbCsGXleaf"}
-                   "j" {:type :leaf, :by "root", :at 1530810685955, :text "nil", :id "HyeISZCoz7"}
+                   "j" {
+                    :type :expr, :by "root", :at 1530812432935, :id "SkltGu0iMm"
+                    :data {
+                     "T" {:type :leaf, :by "root", :at 1530812433299, :text "{}", :id "HyeISZCoz7"}
+                    }
+                   }
                   }
                  }
                 }
@@ -2219,7 +2245,12 @@
                   :type :expr, :by "root", :at 1530811096602, :id "Hyby7CoMX"
                   :data {
                    "T" {:type :leaf, :by "root", :at 1530811097510, :text ":style", :id "Hyby7CoMXleaf"}
-                   "j" {:type :leaf, :by "root", :at 1530811099279, :text "nil", :id "HJQyQCoM7"}
+                   "j" {
+                    :type :expr, :by "root", :at 1530812513990, :id "H1ecPO0ifX"
+                    :data {
+                     "T" {:type :leaf, :by "root", :at 1530812514354, :text "{}", :id "HJQyQCoM7"}
+                    }
+                   }
                   }
                  }
                  "T" {
@@ -2322,6 +2353,18 @@
                        "j" {:type :leaf, :by "root", :at 1528047477353, :text "100", :id "Hy6_wsZx7"}
                       }
                      }
+                    }
+                   }
+                  }
+                 }
+                 "x" {
+                  :type :expr, :by "root", :at 1530812536875, :id "S1gZK_RjzQ"
+                  :data {
+                   "T" {:type :leaf, :by "root", :at 1530812538444, :text ":style", :id "S1gZK_RjzQleaf"}
+                   "j" {
+                    :type :expr, :by "root", :at 1530812539093, :id "H1lXYd0iGQ"
+                    :data {
+                     "T" {:type :leaf, :by "root", :at 1530812539445, :text "{}", :id "H17tuRiGQ"}
                     }
                    }
                   }
