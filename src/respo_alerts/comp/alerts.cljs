@@ -94,22 +94,19 @@
 
 (defcomp
  comp-prompt
- (states trigger content initial-text on-finish!)
- (assert (map? trigger) "need to use an element as trigger")
- (assert (string? content) "content should be a string")
- (assert (string? initial-text) "initial-text should be a string")
+ (states options on-finish!)
  (assert (fn? on-finish!) "on-finish! a callback function")
- (let [state (or (:data states) {:text initial-text, :show? false})
+ (let [trigger (:trigger options)
+       content (or (:text options) "Type in text")
+       initial-text (or (:initial options) "")
+       state (or (:data states) {:text initial-text, :show? false})
        text (or (:text state) initial-text)]
+   (assert (map? trigger) "need to use an element as trigger")
    (span
-    {:style {:cursor :pointer},
+    {:style (merge {:cursor :pointer} (:style options)),
      :on-click (fn [e d! m!]
        (m! (assoc state :show? true))
-       (js/setTimeout
-        (fn []
-          (let [target (.querySelector js/document (str "." schema/input-box-name))]
-            (if (some? target) (.select target))))
-        50))}
+       (focus-later! (str "." schema/input-box-name)))}
     trigger
     (if (:show? state)
       (div

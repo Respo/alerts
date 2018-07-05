@@ -45,9 +45,9 @@
       :prompt
       comp-prompt
       states
-      (comp-button "Prompt")
-      "This would be a very long content of alerts, like some prompt... pick number:"
-      (str (rand-int 100))
+      {:trigger (comp-button "Prompt"),
+       :text "This would be a very long content of alerts, like some prompt... pick number:",
+       :initial (str (rand-int 100))}
       (fn [result d! m!] (println "finish editing!" result))))
     (when dev? (comp-inspect "states" states {:bottom 0}))
     (when dev? (cursor-> :reel comp-reel states reel {})))))
