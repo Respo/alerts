@@ -4,12 +4,11 @@
             [respo-ui.core :as ui]
             [respo.macros
              :refer
-             [defcomp cursor-> action-> mutation-> <> div button textarea span input]]
+             [defcomp cursor-> action-> mutation-> <> div button textarea span input a]]
             [verbosely.core :refer [verbosely!]]
             [respo.comp.space :refer [=<]]
             [respo-alerts.config :refer [dev?]]
             [respo-alerts.style :as style]
-            [keycode.core :as keycode]
             [respo-alerts.schema :as schema]
             [respo-alerts.util :refer [focus-later!]]))
 
@@ -45,7 +44,6 @@
          (button
           {:style ui/button,
            :class-name schema/confirm-button-name,
-           :auto-focus true,
            :on-click (fn [e d! m!] (on-read! e d! m!) (m! (assoc state :show? false)))}
           (<> "Read")))))))))
 
@@ -65,32 +63,20 @@
     trigger
     (when (:show? state)
       (div
-       {:style (merge ui/fullscreen ui/center style/backdrop), :on-click (fn [e d! m!] )}
+       {:style (merge ui/fullscreen ui/center style/backdrop),
+        :on-click (fn [e d! m!] (on-confirm! false d! m!) (m! (assoc state :show? false)))}
        (div
-        {:style (merge ui/column style/card)}
+        {:style (merge ui/column style/card), :on-click (fn [e d! m!] )}
         (div {} (<> content))
         (=< nil 8)
         (div
          {:style ui/row-parted}
          (span nil)
-         (div
-          {}
-          (button
-           {:style (merge ui/button {:border :none}),
-            :auto-focus true,
-            :on-click (fn [e d! m!]
-              (on-confirm! false d! m!)
-              (m! (assoc state :show? false)))}
-           (<> "Cancel"))
-          (=< 8 nil)
-          (button
-           {:style ui/button,
-            :auto-focus true,
-            :class-name schema/confirm-button-name,
-            :on-click (fn [e d! m!]
-              (on-confirm! true d! m!)
-              (m! (assoc state :show? false)))}
-           (<> "Confirm"))))))))))
+         (button
+          {:style ui/button,
+           :class-name schema/confirm-button-name,
+           :on-click (fn [e d! m!] (on-confirm! true d! m!) (m! (assoc state :show? false)))}
+          (<> "Confirm")))))))))
 
 (defcomp
  comp-prompt
@@ -125,7 +111,7 @@
            :value text,
            :on-input (fn [e d! m!] (m! (assoc state :text (:value e)))),
            :on-keydown (fn [e d! m!]
-             (when (= (:key-code e) keycode/return)
+             (when (= (:key e) "Enter")
                (on-finish! text d! m!)
                (m! (assoc state :show? false :text nil))))}))
         (=< nil 16)

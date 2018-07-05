@@ -10,7 +10,7 @@
 
 (set-env!
   :resource-paths #{"src"}
-  :dependencies '[[mvc-works/keycode      "0.1.3"]]
+  :dependencies '[]
   :repositories #(conj % ["clojars" {:url "https://clojars.org/repo/"
                                      :username (:clojars-user config)
                                      :password (read-password "Clojars password: ")}]))
