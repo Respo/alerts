@@ -36,8 +36,9 @@
       :confirm
       comp-confirm
       states
-      (comp-button "Confirm")
-      "This would be a very long content of alerts, like some confirmation..."
+      {:style nil,
+       :trigger (comp-button "Confirm"),
+       :text "This would be a very long content of alerts, like some confirmation..."}
       (fn [result d! m!] (println "confirm!" result)))
      (=< 8 nil)
      (cursor->

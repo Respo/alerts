@@ -22,7 +22,7 @@
        state (or (:data states) {:show? false})]
    (assert (map? trigger) "need to use an element as trigger")
    (span
-    {:style {:cursor :pointer},
+    {:style (merge {:cursor :pointer} (:style options)),
      :on-click (fn [e d! m!]
        (m! (assoc state :show? true))
        (focus-later! (str "." schema/confirm-button-name)))}
@@ -51,20 +51,17 @@
 
 (defcomp
  comp-confirm
- (states trigger content on-confirm!)
- (assert (map? trigger) "need to use an element as trigger")
- (assert (string? content) "content should be a string")
+ (states options on-confirm!)
  (assert (fn? on-confirm!) "require a callback function")
- (let [state (or (:data states) {:show? false})]
+ (let [trigger (:trigger options)
+       content (or (:text options) "Confirm?")
+       state (or (:data states) {:show? false})]
+   (assert (map? trigger) "need to use an element as trigger")
    (span
-    {:style {:cursor :pointer},
+    {:style (merge {:cursor :pointer} (:style options)),
      :on-click (fn [e d! m!]
        (m! (assoc state :show? true))
-       (js/setTimeout
-        (fn []
-          (let [target (.querySelector js/document (str "." schema/confirm-button-name))]
-            (if (some? target) (.focus target))))
-        50))}
+       (focus-later! (str "." schema/confirm-button-name)))}
     trigger
     (when (:show? state)
       (div
