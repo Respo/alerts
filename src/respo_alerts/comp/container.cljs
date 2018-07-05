@@ -27,8 +27,9 @@
       :alert
       comp-alert
       states
-      (comp-button "Alert")
-      "This would be a very long content of alerts, like some alerts..."
+      {:trigger (comp-button "Alert"),
+       :text "This would be a very long content of alerts, like some alerts...",
+       :style nil}
       (fn [e d! m!] (println "message has been read.")))
      (=< 8 nil)
      (cursor->

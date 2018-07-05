@@ -10,24 +10,22 @@
             [respo-alerts.config :refer [dev?]]
             [respo-alerts.style :as style]
             [keycode.core :as keycode]
-            [respo-alerts.schema :as schema]))
+            [respo-alerts.schema :as schema]
+            [respo-alerts.util :refer [focus-later!]]))
 
 (defcomp
  comp-alert
- (states trigger content on-read!)
- (assert (map? trigger) "need to use an element as trigger")
- (assert (string? content) "content should be a string")
+ (states options on-read!)
  (assert (fn? on-read!) "require a callback function")
- (let [state (or (:data states) {:show? false})]
+ (let [trigger (:trigger options)
+       content (or (:text options) "Alert!")
+       state (or (:data states) {:show? false})]
+   (assert (map? trigger) "need to use an element as trigger")
    (span
     {:style {:cursor :pointer},
      :on-click (fn [e d! m!]
        (m! (assoc state :show? true))
-       (js/setTimeout
-        (fn []
-          (let [target (.querySelector js/document (str "." schema/confirm-button-name))]
-            (if (some? target) (.focus target))))
-        50))}
+       (focus-later! (str "." schema/confirm-button-name)))}
     trigger
     (when (:show? state)
       (div
