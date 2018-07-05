@@ -10,7 +10,8 @@
             [respo-alerts.config :refer [dev?]]
             [respo-alerts.style :as style]
             [respo-alerts.schema :as schema]
-            [respo-alerts.util :refer [focus-later!]]))
+            [respo-alerts.util :refer [focus-later!]]
+            [respo-alerts.style :as style]))
 
 (defcomp
  comp-alert
@@ -42,7 +43,7 @@
          {:style ui/row-parted}
          (span nil)
          (button
-          {:style ui/button,
+          {:style style/button,
            :class-name schema/confirm-button-name,
            :on-click (fn [e d! m!] (on-read! e d! m!) (m! (assoc state :show? false)))}
           (<> "Read")))))))))
@@ -73,7 +74,7 @@
          {:style ui/row-parted}
          (span nil)
          (button
-          {:style ui/button,
+          {:style style/button,
            :class-name schema/confirm-button-name,
            :on-click (fn [e d! m!] (on-confirm! true d! m!) (m! (assoc state :show? false)))}
           (<> "Confirm")))))))))
@@ -119,7 +120,7 @@
          {:style ui/row-parted}
          (span nil)
          (button
-          {:style ui/button,
+          {:style style/button,
            :on-click (fn [e d! m!]
              (on-finish! text d! m!)
              (m! (assoc state :show? false :text nil)))}
