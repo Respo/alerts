@@ -65,7 +65,7 @@
     (when (:show? state)
       (div
        {:style (merge ui/fullscreen ui/center style/backdrop),
-        :on-click (fn [e d! m!] (on-confirm! false d! m!) (m! (assoc state :show? false)))}
+        :on-click (fn [e d! m!] (m! (assoc state :show? false)))}
        (div
         {:style (merge ui/column style/card), :on-click (fn [e d! m!] )}
         (div {} (<> content))
@@ -76,7 +76,7 @@
          (button
           {:style style/button,
            :class-name schema/confirm-button-name,
-           :on-click (fn [e d! m!] (on-confirm! true d! m!) (m! (assoc state :show? false)))}
+           :on-click (fn [e d! m!] (on-confirm! e d! m!) (m! (assoc state :show? false)))}
           (<> "Confirm")))))))))
 
 (defcomp

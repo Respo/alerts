@@ -39,7 +39,7 @@
       {:style {},
        :trigger (comp-button "Confirm"),
        :text "This would be a very long content of alerts, like some confirmation..."}
-      (fn [result d! m!] (println "confirm!" result)))
+      (fn [e d! m!] (println "confirmed!")))
      (=< 8 nil)
      (cursor->
       :prompt

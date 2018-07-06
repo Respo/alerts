@@ -9,7 +9,7 @@ Alerts
 [![Clojars Project](https://img.shields.io/clojars/v/respo/alerts.svg)](https://clojars.org/respo/alerts)
 
 ```edn
-[respo/alerts "0.3.0"]
+[respo/alerts "0.3.1"]
 ```
 
 This library provides several UI components, so you need to control their visibilities with your own states, for example: `{:show-alert? true}`.
@@ -38,9 +38,9 @@ Since every component has its own internal states, I use `cursor->` in all examp
           {:trigger (comp-button "trigger"),
            :text "message text"
            :style {}}
-          (fn [result dispatch! mutate!]
+          (fn [e dispatch! mutate!]
               (dispatch! :some/action "data")
-              (println "confirm in boolean!" result)))
+              (println "confirmed!")))
 ```
 
 `comp-prompt` is like `prompt("message", "default")` but with a callback function returning `result`:
