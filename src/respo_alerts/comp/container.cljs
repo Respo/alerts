@@ -27,25 +27,28 @@
       :alert
       comp-alert
       states
-      (comp-button "Alert")
-      "This would be a very long content of alerts, like some alerts..."
+      {:trigger (comp-button "Alert"),
+       :text "This would be a very long content of alerts, like some alerts...",
+       :style {}}
       (fn [e d! m!] (println "message has been read.")))
      (=< 8 nil)
      (cursor->
       :confirm
       comp-confirm
       states
-      (comp-button "Confirm")
-      "This would be a very long content of alerts, like some confirmation..."
-      (fn [result d! m!] (println "confirm!" result)))
+      {:style {},
+       :trigger (comp-button "Confirm"),
+       :text "This would be a very long content of alerts, like some confirmation..."}
+      (fn [e d! m!] (println "confirmed!")))
      (=< 8 nil)
      (cursor->
       :prompt
       comp-prompt
       states
-      (comp-button "Prompt")
-      "This would be a very long content of alerts, like some prompt... pick number:"
-      (str (rand-int 100))
+      {:trigger (comp-button "Prompt"),
+       :text "This would be a very long content of alerts, like some prompt... pick number:",
+       :initial (str (rand-int 100)),
+       :style {}}
       (fn [result d! m!] (println "finish editing!" result))))
     (when dev? (comp-inspect "states" states {:bottom 0}))
     (when dev? (cursor-> :reel comp-reel states reel {})))))

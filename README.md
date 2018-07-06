@@ -9,7 +9,7 @@ Alerts
 [![Clojars Project](https://img.shields.io/clojars/v/respo/alerts.svg)](https://clojars.org/respo/alerts)
 
 ```edn
-[respo/alerts "0.2.5"]
+[respo/alerts "0.3.1"]
 ```
 
 This library provides several UI components, so you need to control their visibilities with your own states, for example: `{:show-alert? true}`.
@@ -23,30 +23,38 @@ Since every component has its own internal states, I use `cursor->` in all examp
 `comp-alert` is like `alert("message")` but with a callback function:
 
 ```clojure
-(cursor-> :alert
-          comp-alert states (comp-buttom "trigger") "message text"
-                     (fn [e dispatch! mutate!]
-                         (dispatch! :some/action "data")))
+(cursor-> :alert comp-alert states
+          {:trigger (comp-buttom "trigger"),
+           :text "message text",
+           :style {}}
+           (fn [e dispatch! mutate!]
+               (dispatch! :some/action "data")))
 ```
 
 `comp-alert` is like `confirm("message")` but with a callback function returning `result`:
 
 ```clojure
-(cursor-> :confirm comp-confirm states (comp-button "trigger") "message text"
-                                (fn [result dispatch! mutate!]
-                                    (dispatch! :some/action "data")
-                                    (println "confirm in boolean!" result)))
+(cursor-> :confirm comp-confirm states
+          {:trigger (comp-button "trigger"),
+           :text "message text"
+           :style {}}
+          (fn [e dispatch! mutate!]
+              (dispatch! :some/action "data")
+              (println "confirmed!")))
 ```
 
 `comp-prompt` is like `prompt("message", "default")` but with a callback function returning `result`:
 
 ```clojure
-(cursor-> :prompt
-          comp-prompt states (comp-button "trigger") "message text" "default text"
-                      (fn [result dispatch! mutate!]
-                          (dispatch! :some/action "data")
-                          (mutate! %cursor (assoc state :show-prompt? false))
-                          (println "finish editing!" result)))
+(cursor-> :prompt comp-prompt states
+          {:trigger (comp-button "trigger"),
+           :text "message text",
+           :style {}
+           :initial "default text"}
+          (fn [result dispatch! mutate!]
+              (dispatch! :some/action "data")
+              (mutate! %cursor (assoc state :show-prompt? false))
+              (println "finish editing!" result)))
 ```
 
 ### Workflow

@@ -4,30 +4,28 @@
             [respo-ui.core :as ui]
             [respo.macros
              :refer
-             [defcomp cursor-> action-> mutation-> <> div button textarea span input]]
+             [defcomp cursor-> action-> mutation-> <> div button textarea span input a]]
             [verbosely.core :refer [verbosely!]]
             [respo.comp.space :refer [=<]]
             [respo-alerts.config :refer [dev?]]
             [respo-alerts.style :as style]
-            [keycode.core :as keycode]
-            [respo-alerts.schema :as schema]))
+            [respo-alerts.schema :as schema]
+            [respo-alerts.util :refer [focus-later!]]
+            [respo-alerts.style :as style]))
 
 (defcomp
  comp-alert
- (states trigger content on-read!)
- (assert (map? trigger) "need to use an element as trigger")
- (assert (string? content) "content should be a string")
+ (states options on-read!)
  (assert (fn? on-read!) "require a callback function")
- (let [state (or (:data states) {:show? false})]
+ (let [trigger (:trigger options)
+       content (or (:text options) "Alert!")
+       state (or (:data states) {:show? false})]
+   (assert (map? trigger) "need to use an element as trigger")
    (span
-    {:style {:cursor :pointer},
+    {:style (merge {:cursor :pointer, :display :inline-block} (:style options)),
      :on-click (fn [e d! m!]
        (m! (assoc state :show? true))
-       (js/setTimeout
-        (fn []
-          (let [target (.querySelector js/document (str "." schema/confirm-button-name))]
-            (if (some? target) (.focus target))))
-        50))}
+       (focus-later! (str "." schema/confirm-button-name)))}
     trigger
     (when (:show? state)
       (div
@@ -45,76 +43,57 @@
          {:style ui/row-parted}
          (span nil)
          (button
-          {:style ui/button,
+          {:style style/button,
            :class-name schema/confirm-button-name,
-           :auto-focus true,
            :on-click (fn [e d! m!] (on-read! e d! m!) (m! (assoc state :show? false)))}
           (<> "Read")))))))))
 
 (defcomp
  comp-confirm
- (states trigger content on-confirm!)
- (assert (map? trigger) "need to use an element as trigger")
- (assert (string? content) "content should be a string")
+ (states options on-confirm!)
  (assert (fn? on-confirm!) "require a callback function")
- (let [state (or (:data states) {:show? false})]
+ (let [trigger (:trigger options)
+       content (or (:text options) "Confirm?")
+       state (or (:data states) {:show? false})]
+   (assert (map? trigger) "need to use an element as trigger")
    (span
-    {:style {:cursor :pointer},
+    {:style (merge {:cursor :pointer, :display :inline-block} (:style options)),
      :on-click (fn [e d! m!]
        (m! (assoc state :show? true))
-       (js/setTimeout
-        (fn []
-          (let [target (.querySelector js/document (str "." schema/confirm-button-name))]
-            (if (some? target) (.focus target))))
-        50))}
+       (focus-later! (str "." schema/confirm-button-name)))}
     trigger
     (when (:show? state)
       (div
-       {:style (merge ui/fullscreen ui/center style/backdrop), :on-click (fn [e d! m!] )}
+       {:style (merge ui/fullscreen ui/center style/backdrop),
+        :on-click (fn [e d! m!] (m! (assoc state :show? false)))}
        (div
-        {:style (merge ui/column style/card)}
+        {:style (merge ui/column style/card), :on-click (fn [e d! m!] )}
         (div {} (<> content))
         (=< nil 8)
         (div
          {:style ui/row-parted}
          (span nil)
-         (div
-          {}
-          (button
-           {:style (merge ui/button {:border :none}),
-            :auto-focus true,
-            :on-click (fn [e d! m!]
-              (on-confirm! false d! m!)
-              (m! (assoc state :show? false)))}
-           (<> "Cancel"))
-          (=< 8 nil)
-          (button
-           {:style ui/button,
-            :auto-focus true,
-            :class-name schema/confirm-button-name,
-            :on-click (fn [e d! m!]
-              (on-confirm! true d! m!)
-              (m! (assoc state :show? false)))}
-           (<> "Confirm"))))))))))
+         (button
+          {:style style/button,
+           :class-name schema/confirm-button-name,
+           :on-click (fn [e d! m!] (on-confirm! e d! m!) (m! (assoc state :show? false)))}
+          (<> "Confirm")))))))))
 
 (defcomp
  comp-prompt
- (states trigger content initial-text on-finish!)
- (assert (map? trigger) "need to use an element as trigger")
- (assert (string? content) "content should be a string")
- (assert (string? initial-text) "initial-text should be a string")
+ (states options on-finish!)
  (assert (fn? on-finish!) "on-finish! a callback function")
- (let [state (or (:data states) {:text initial-text, :show? false})
+ (let [trigger (:trigger options)
+       content (or (:text options) "Type in text")
+       initial-text (or (:initial options) "")
+       state (or (:data states) {:text initial-text, :show? false})
        text (or (:text state) initial-text)]
+   (assert (map? trigger) "need to use an element as trigger")
    (span
-    {:style {:cursor :pointer},
+    {:style (merge {:cursor :pointer, :display :inline-block} (:style options)),
      :on-click (fn [e d! m!]
        (m! (assoc state :show? true))
-       (js/setTimeout
-        (fn []
-          (let [target (.querySelector js/document (str "." schema/input-box-name))]
-            (if (some? target) (.select target))))
-        50))}
+       (focus-later! (str "." schema/input-box-name)))}
     trigger
     (if (:show? state)
       (div
@@ -133,7 +112,7 @@
            :value text,
            :on-input (fn [e d! m!] (m! (assoc state :text (:value e)))),
            :on-keydown (fn [e d! m!]
-             (when (= (:key-code e) keycode/return)
+             (when (= (:key e) "Enter")
                (on-finish! text d! m!)
                (m! (assoc state :show? false :text nil))))}))
         (=< nil 16)
@@ -141,7 +120,7 @@
          {:style ui/row-parted}
          (span nil)
          (button
-          {:style ui/button,
+          {:style style/button,
            :on-click (fn [e d! m!]
              (on-finish! text d! m!)
              (m! (assoc state :show? false :text nil)))}
