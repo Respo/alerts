@@ -13,7 +13,7 @@
  :builds {:client {:target :browser
                    :output-dir "target/"
                    :asset-path "./"
-                   :modules {:main {:entries [respo-alerts.main]}}
+                   :modules {:client {:entries [respo-alerts.main]}}
                    :devtools {:after-load respo-alerts.main/reload!
                               :http-root "target"
                               :http-port 7000}
