@@ -112,7 +112,9 @@
            :value text,
            :on-input (fn [e d! m!] (m! (assoc state :text (:value e)))),
            :on-keydown (fn [e d! m!]
-             (when (= (:key e) "Enter")
+             (println e)
+             (.log js/console (:event e))
+             (when (and (not= 229 (:keycode e)) (= (:key e) "Enter"))
                (on-finish! text d! m!)
                (m! (assoc state :show? false :text nil))))}))
         (=< nil 16)

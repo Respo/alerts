@@ -17,7 +17,7 @@
    (merge
     base-info
     {:styles ["/entry/main.css" (:dev-ui config/site)],
-     :scripts ["/main.js"],
+     :scripts ["/client.js"],
      :inline-styles []})))
 
 (def preview? (= "preview" js/process.env.prod))
