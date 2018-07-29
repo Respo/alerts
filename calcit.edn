@@ -1658,27 +1658,6 @@
                              "r" {:type :leaf, :by "root", :at 1528129905402, :text "m!", :id "BJ7vdYymgm"}
                             }
                            }
-                           "n" {
-                            :type :expr, :by "root", :at 1531725131396, :id "S1l7LSTFQ7"
-                            :data {
-                             "T" {:type :leaf, :by "root", :at 1531725139254, :text "println", :id "S1l7LSTFQ7leaf"}
-                             "j" {:type :leaf, :by "root", :at 1531725140177, :text "e", :id "ry3LBaFmQ"}
-                            }
-                           }
-                           "p" {
-                            :type :expr, :by "root", :at 1531725141353, :id "rJxpUBTFX7"
-                            :data {
-                             "T" {:type :leaf, :by "root", :at 1531725142830, :text ".log", :id "rJxpUBTFX7leaf"}
-                             "j" {:type :leaf, :by "root", :at 1531725145715, :text "js/console", :id "H1GyPSTFXm"}
-                             "r" {
-                              :type :expr, :by "root", :at 1531725148846, :id "SJHPrTYQ7"
-                              :data {
-                               "T" {:type :leaf, :by "root", :at 1531725154668, :text ":event", :id "BkZGvSTtQm"}
-                               "j" {:type :leaf, :by "root", :at 1531725152918, :text "e", :id "SkeFwBpF77"}
-                              }
-                             }
-                            }
-                           }
                            "r" {
                             :type :expr, :by "root", :at 1528129945686, :id "rkfiK1Xlm"
                             :data {
