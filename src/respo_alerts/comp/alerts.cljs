@@ -4,7 +4,18 @@
             [respo-ui.core :as ui]
             [respo.macros
              :refer
-             [defcomp cursor-> action-> mutation-> <> div button textarea span input a]]
+             [defcomp
+              cursor->
+              action->
+              list->
+              mutation->
+              <>
+              div
+              button
+              textarea
+              span
+              input
+              a]]
             [verbosely.core :refer [verbosely!]]
             [respo.comp.space :refer [=<]]
             [respo-alerts.config :refer [dev?]]
@@ -125,3 +136,64 @@
              (on-finish! text d! m!)
              (m! (assoc state :show? false :text nil)))}
           (<> "Finish")))))))))
+
+(defcomp
+ comp-select
+ (states selected-value candidates options on-read!)
+ (assert (fn? on-read!) "require a callback function")
+ (assert (sequential? candidates) "candidates should be a list")
+ (let [content (or (:text options) "Select from list:")
+       state (or (:data states) {:show? false})]
+   (span
+    {:style (merge {:cursor :pointer, :display :inline-block} (:style options)),
+     :on-click (fn [e d! m!] (m! (assoc state :show? true)))}
+    (let [selected (first
+                    (filter (fn [option] (= selected-value (:value option))) candidates))]
+      (if (some? selected)
+        (<> (:display selected) (merge {:display :inline-block} (:style-trigger options)))
+        (<>
+         (or (:placeholder options) "Nothing")
+         (merge
+          {:font-family ui/font-fancy, :color (hsl 0 0 60), :display :inline-block}
+          (:style-trigger options)))))
+    (when (:show? state)
+      (div
+       {:style (merge ui/fullscreen ui/center style/backdrop),
+        :on-click (fn [e d! m!]
+          (let [event (:event e)]
+            (.stopPropagation event)
+            (on-read! e d! m!)
+            (m! (assoc state :show? false))))}
+       (div
+        {:style (merge ui/column style/card), :on-click (fn [e d! m!] )}
+        (div
+         {:style ui/row-parted}
+         (<> content {:font-family ui/font-fancy, :color (hsl 0 0 60)})
+         (a
+          {:style (merge ui/link {:font-family ui/font-fancy}),
+           :on-click (fn [e d! m!] (on-read! nil d! m!) (m! (assoc state :show? false)))}
+          (<> "Clear")))
+        (=< nil 8)
+        (if (empty? candidates)
+          (<>
+           "No item to select"
+           {:font-family ui/font-fancy, :color (hsl 0 0 70), :font-size 14})
+          (list->
+           {}
+           (->> candidates
+                (map-indexed
+                 (fn [idx candidate]
+                   (let [value (:value candidate), display (:display candidate)]
+                     [(or value idx)
+                      (div
+                       {:style (merge
+                                {:border-bottom (str "1px solid " (hsl 0 0 90)),
+                                 :line-height "32px",
+                                 :padding "0 8px"}
+                                (when (= selected-value (:value candidate))
+                                  {:background-color (hsl 0 0 96)})),
+                        :on-click (fn [e d! m!]
+                          (on-read! value d! m!)
+                          (m! (assoc state :show? false)))}
+                       (<> (or display "<default display>")))]))))))
+        (=< nil 8)))))))

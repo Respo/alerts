@@ -9,6 +9,8 @@
   {:background-color (hsl 0 0 100),
    :min-width 480,
    :max-width "80vw",
+   :max-height "80vh",
+   :overflow :auto,
    :padding 16,
    :border-radius "4px",
    :color (hsl 0 0 0)})

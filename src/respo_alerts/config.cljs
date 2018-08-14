@@ -7,7 +7,7 @@
 (def site
   {:title "Alerts",
    :icon "http://cdn.tiye.me/logo/respo.png",
-   :storage "Alerts",
+   :storage "alerts",
    :dev-ui "http://localhost:8100/main.css",
    :release-ui "http://cdn.tiye.me/favored-fonts/main.css",
    :cdn-url "http://cdn.tiye.me/respo-alerts/",
