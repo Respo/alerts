@@ -9,7 +9,7 @@ Alerts
 [![Clojars Project](https://img.shields.io/clojars/v/respo/alerts.svg)](https://clojars.org/respo/alerts)
 
 ```edn
-[respo/alerts "0.3.4"]
+[respo/alerts "0.3.5"]
 ```
 
 This library provides several UI components, so you need to control their visibilities with your own states, for example: `{:show-alert? true}`.
@@ -55,6 +55,21 @@ Since every component has its own internal states, I use `cursor->` in all examp
               (dispatch! :some/action "data")
               (mutate! %cursor (assoc state :show-prompt? false))
               (println "finish editing!" result)))
+```
+
+`comp-select` pops up a select menu and returns a `result` in callback function:
+
+```clojure
+(def candidates [{:value "haskell", :display "Haskell"}
+                 {:value "clojure", :display "Clojure"}
+                 {:value "elixir", :display "Elixir"}])
+
+(cursor-> :select comp-select states (:selected state) candidates
+          {:style-trigger {},
+           :text "Select a item from:"}
+          (fn [result d! m!]
+              (println "finish selecting!" result)
+              (m! %cursor (assoc state :selected result))))
 ```
 
 ### Workflow
