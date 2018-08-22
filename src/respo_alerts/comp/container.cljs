@@ -13,9 +13,10 @@
             [respo-alerts.comp.alerts
              :refer
              [comp-alert comp-confirm comp-prompt comp-select]]
-            [respo.comp.inspect :refer [comp-inspect]]))
+            [respo.comp.inspect :refer [comp-inspect]]
+            [respo-alerts.style :as style]))
 
-(defcomp comp-button (text) (button {:style ui/button} (<> text)))
+(defcomp comp-button (text) (button {:style style/button} (<> text)))
 
 (defcomp
  comp-container
@@ -24,9 +25,9 @@
        states (:states store)
        state (or (:data states) {:selected ""})]
    (div
-    {:style (merge ui/global ui/row)}
+    {:style (merge ui/global ui/row ui/fullscreen {:overflow :auto})}
     (div
-     {:style {:padding 16}}
+     {:style (merge ui/row {:padding 16, :align-items :flex-start})}
      (cursor->
       :alert
       comp-alert
@@ -53,6 +54,17 @@
        :text "This would be a very long content of alerts, like some prompt... pick number:",
        :initial (str (rand-int 100)),
        :style {}}
+      (fn [result d! m!] (println "finish editing!" result)))
+     (=< 8 nil)
+     (cursor->
+      :prompt-multiline
+      comp-prompt
+      states
+      {:trigger (comp-button "Prompt multiline"),
+       :text "This would be a very long content of alerts, like some prompt... write multiple lines:",
+       :initial (str (rand-int 100)),
+       :style {},
+       :multiline? true}
       (fn [result d! m!] (println "finish editing!" result)))
      (=< 8 nil)
      (cursor->

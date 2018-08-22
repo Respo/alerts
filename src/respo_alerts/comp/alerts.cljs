@@ -116,16 +116,26 @@
         (=< nil 8)
         (div
          {}
-         (input
-          {:style (merge ui/input {:width "100%"}),
-           :class-name schema/input-box-name,
-           :placeholder "",
-           :value text,
-           :on-input (fn [e d! m!] (m! (assoc state :text (:value e)))),
-           :on-keydown (fn [e d! m!]
-             (when (and (not= 229 (:keycode e)) (= (:key e) "Enter"))
-               (on-finish! text d! m!)
-               (m! (assoc state :show? false :text nil))))}))
+         (let [on-keydown (fn [e d! m!]
+                            (when (and (not= 229 (:keycode e)) (= (:key e) "Enter"))
+                              (on-finish! text d! m!)
+                              (m! (assoc state :show? false :text nil))))
+               on-input (fn [e d! m!] (m! (assoc state :text (:value e))))]
+           (if (:multiline? options)
+             (textarea
+              {:style (merge ui/textarea {:width "100%", :min-height 120}),
+               :class-name schema/input-box-name,
+               :placeholder "",
+               :value text,
+               :on-input on-input,
+               :on-keydown on-keydown})
+             (input
+              {:style (merge ui/input {:width "100%"}),
+               :class-name schema/input-box-name,
+               :placeholder "",
+               :value text,
+               :on-input on-input,
+               :on-keydown on-keydown}))))
         (=< nil 16)
         (div
          {:style ui/row-parted}
