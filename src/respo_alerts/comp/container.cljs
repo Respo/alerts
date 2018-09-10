@@ -64,6 +64,7 @@
        :text "This would be a very long content of alerts, like some prompt... write multiple lines:",
        :initial (str (rand-int 100)),
        :style {},
+       :input-style {:font-family ui/font-code},
        :multiline? true}
       (fn [result d! m!] (println "finish editing!" result)))
      (=< 8 nil)
