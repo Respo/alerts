@@ -1,5 +1,5 @@
 {
-  "name": "resop-alerts",
+  "name": "respo-alerts",
   "version": "0.1.0",
   "description": "Respo alerts library",
   "main": "index.js",
@@ -21,7 +21,7 @@
   "license": "MIT",
   "devDependencies": {
     "http-server": "^0.11.1",
-    "shadow-cljs": "^2.6.6"
+    "shadow-cljs": "^2.6.10"
   },
   "dependencies": {
     "shortid": "^2.2.13"

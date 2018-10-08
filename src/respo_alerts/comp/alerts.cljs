@@ -16,7 +16,6 @@
               span
               input
               a]]
-            [verbosely.core :refer [verbosely!]]
             [respo.comp.space :refer [=<]]
             [respo-alerts.config :refer [dev?]]
             [respo-alerts.style :as style]
