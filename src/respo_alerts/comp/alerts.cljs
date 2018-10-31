@@ -2,7 +2,7 @@
 (ns respo-alerts.comp.alerts
   (:require [hsl.core :refer [hsl]]
             [respo-ui.core :as ui]
-            [respo.macros
+            [respo.core
              :refer
              [defcomp
               cursor->
