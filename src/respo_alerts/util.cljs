@@ -7,3 +7,8 @@
   (do-later!
    (fn []
      (let [target (.querySelector js/document query)] (if (some? target) (.focus target))))))
+
+(defn select-later! [query]
+  (do-later!
+   (fn []
+     (let [target (.querySelector js/document query)] (if (some? target) (.select target))))))

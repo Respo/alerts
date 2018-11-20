@@ -20,7 +20,7 @@
             [respo-alerts.config :refer [dev?]]
             [respo-alerts.style :as style]
             [respo-alerts.schema :as schema]
-            [respo-alerts.util :refer [focus-later!]]
+            [respo-alerts.util :refer [focus-later! select-later!]]
             [respo-alerts.style :as style]))
 
 (defcomp
@@ -103,7 +103,7 @@
     {:style (merge {:cursor :pointer, :display :inline-block} (:style options)),
      :on-click (fn [e d! m!]
        (m! (assoc state :show? true))
-       (focus-later! (str "." schema/input-box-name)))}
+       (select-later! (str "." schema/input-box-name)))}
     trigger
     (if (:show? state)
       (div
@@ -121,8 +121,14 @@
                       :on-input (fn [e d! m!] (m! (assoc state :text (:value e)))),
                       :on-keydown (fn [e d! m!]
                         (when (and (not= 229 (:keycode e)) (= (:key e) "Enter"))
-                          (on-finish! text d! m!)
-                          (m! (assoc state :show? false :text nil))))}]
+                          (if (:multiline? options)
+                            (when (.-metaKey (:event e))
+                              (do
+                               (on-finish! text d! m!)
+                               (m! (assoc state :show? false :text nil))))
+                            (do
+                             (on-finish! text d! m!)
+                             (m! (assoc state :show? false :text nil))))))}]
            (if (:multiline? options)
              (textarea
               (merge
