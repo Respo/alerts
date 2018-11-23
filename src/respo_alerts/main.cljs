@@ -41,5 +41,3 @@
   (clear-cache!)
   (reset! *reel (refresh-reel @*reel schema/store updater))
   (println "Code updated."))
-
-(set! (.-onload js/window) main!)

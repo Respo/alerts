@@ -108,7 +108,7 @@
     (if (:show? state)
       (div
        {:style (merge ui/fullscreen ui/center style/backdrop),
-        :on-click (fn [e d! m!] (m! (assoc state :show? false)))}
+        :on-click (fn [e d! m!] (m! (assoc state :show? false :text nil)))}
        (div
         {:style (merge ui/column style/card), :on-click (fn [e d! m!] )}
         (div {} (<> content))
