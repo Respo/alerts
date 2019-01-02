@@ -1,12 +1,13 @@
 
 {:source-paths ["src" "cli"]
  :dependencies [[mvc-works/hsl          "0.1.2"]
-                [mvc-works/shell-page   "0.1.9"]
+                [mvc-works/shell-page   "0.1.10"]
                 [respo                  "0.10.2"]
                 [respo/ui               "0.3.10"]
                 [respo/value            "0.2.5"]
                 [respo/markdown         "0.2.4"]
                 [respo/reel             "0.3.4"]
+                [cumulo/util            "0.1.4"]
                 [org.clojure/core.incubator "0.1.4"]]
  :open-file-command ["subl" ["%s:%s:%s" :file :line :column]]
  :socket-repl {:port 0}
@@ -24,4 +25,8 @@
           :page {:target :node-script
                  :output-to "target/page.js"
                  :main respo-alerts.page/main!
-                 :devtools {:after-load respo-alerts.page/main!}}}}
+                 :devtools {:after-load respo-alerts.page/main!}}
+          :upload {:target :node-script
+                   :output-to "target/upload.js"
+                   :main app.upload/main!
+                   :devtools {:after-load app.upload/main!}}}}
