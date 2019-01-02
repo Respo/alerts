@@ -175,7 +175,7 @@
         :on-click (fn [e d! m!]
           (let [event (:event e)]
             (.stopPropagation event)
-            (on-read! e d! m!)
+            (on-read! nil d! m!)
             (m! (assoc state :show? false))))}
        (div
         {:style (merge ui/column style/card), :on-click (fn [e d! m!] )}
