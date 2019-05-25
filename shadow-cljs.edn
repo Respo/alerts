@@ -26,5 +26,5 @@
                  :devtools {:after-load respo-alerts.page/main!}}
           :upload {:target :node-script
                    :output-to "target/upload.js"
-                   :main app.upload/main!
-                   :devtools {:after-load app.upload/main!}}}}
+                   :main respo-alerts.upload/main!
+                   :devtools {:after-load respo-alerts.upload/main!}}}}
