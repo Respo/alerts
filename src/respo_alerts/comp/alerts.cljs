@@ -21,7 +21,8 @@
             [respo-alerts.style :as style]
             [respo-alerts.schema :as schema]
             [respo-alerts.util :refer [focus-later! select-later!]]
-            [respo-alerts.style :as style]))
+            [respo-alerts.style :as style]
+            [clojure.string :as string]))
 
 (defcomp
  comp-alert
@@ -96,7 +97,7 @@
  (let [trigger (:trigger options)
        content (or (:text options) "Type in text")
        initial-text (or (:initial options) "")
-       state (or (:data states) {:text initial-text, :show? false})
+       state (or (:data states) {:text initial-text, :show? false, :failure nil})
        text (or (:text state) initial-text)]
    (assert (map? trigger) "need to use an element as trigger")
    (span
@@ -108,7 +109,7 @@
     (if (:show? state)
       (div
        {:style (merge ui/fullscreen ui/center style/backdrop),
-        :on-click (fn [e d! m!] (m! (assoc state :show? false :text nil)))}
+        :on-click (fn [e d! m!] (m! (assoc state :show? false :text nil :failure nil)))}
        (div
         {:style (merge ui/column style/card), :on-click (fn [e d! m!] )}
         (div {} (<> content))
@@ -142,12 +143,20 @@
         (=< nil 16)
         (div
          {:style ui/row-parted}
-         (span nil)
+         (if-let [failure (:failure state)]
+           (span
+            {:style (merge ui/flex {:color :red, :line-height "20px"}), :inner-text failure})
+           (span nil))
          (button
           {:style style/button,
            :on-click (fn [e d! m!]
-             (on-finish! text d! m!)
-             (m! (assoc state :show? false :text nil)))}
+             (let [validator (:validator options)
+                   result (if (fn? validator) (validator text) nil)]
+               (if (some? result)
+                 (m! (assoc state :failure result))
+                 (do
+                  (on-finish! text d! m!)
+                  (m! (assoc state :show? false :text nil :failure nil))))))}
           (<> "Finish")))))))))
 
 (defcomp

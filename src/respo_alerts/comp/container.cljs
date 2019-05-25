@@ -13,7 +13,9 @@
              :refer
              [comp-alert comp-confirm comp-prompt comp-select]]
             [respo.comp.inspect :refer [comp-inspect]]
-            [respo-alerts.style :as style]))
+            [respo-alerts.style :as style]
+            [clojure.string :as string]
+            [cljs.reader :refer [read-string]]))
 
 (defcomp comp-button (text) (button {:style style/button} (<> text)))
 
@@ -65,6 +67,19 @@
        :style {},
        :input-style {:font-family ui/font-code},
        :multiline? true}
+      (fn [result d! m!] (println "finish editing!" result)))
+     (=< 8 nil)
+     (cursor->
+      :prompt-validator
+      comp-prompt
+      states
+      {:trigger (comp-button "Prompt validator"),
+       :text "This would be a very long content of alerts, like some prompt... write multiple lines:",
+       :initial (str (rand-int 100)),
+       :style {},
+       :input-style {:font-family ui/font-code},
+       :multiline? true,
+       :validator (fn [x] (try (do (read-string x) nil) (catch js/Error e (str e))))}
       (fn [result d! m!] (println "finish editing!" result)))
      (=< 8 nil)
      (cursor->
