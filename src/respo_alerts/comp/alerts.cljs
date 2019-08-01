@@ -117,7 +117,6 @@
         (div
          {}
          (let [props {:class-name schema/input-box-name,
-                      :placeholder "",
                       :value text,
                       :on-input (fn [e d! m!] (m! (assoc state :text (:value e)))),
                       :on-keydown (fn [e d! m!]
@@ -129,7 +128,8 @@
                                (m! (assoc state :show? false :text nil))))
                             (do
                              (on-finish! text d! m!)
-                             (m! (assoc state :show? false :text nil))))))}]
+                             (m! (assoc state :show? false :text nil)))))),
+                      :placeholder (or (:placeholder options) "")}]
            (if (:multiline? options)
              (textarea
               (merge
