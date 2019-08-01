@@ -54,7 +54,9 @@
       {:trigger (comp-button "Prompt"),
        :text "This would be a very long content of alerts, like some prompt... pick number:",
        :initial (str (rand-int 100)),
-       :style {}}
+       :style {},
+       :placeholder "input demo",
+       :button-text "Finish and submit"}
       (fn [result d! m!] (println "finish editing!" result)))
      (=< 8 nil)
      (cursor->

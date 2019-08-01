@@ -57,7 +57,7 @@
           {:style style/button,
            :class-name schema/confirm-button-name,
            :on-click (fn [e d! m!] (on-read! e d! m!) (m! (assoc state :show? false)))}
-          (<> "Read")))))))))
+          (<> (or (:button-text options) "Read"))))))))))
 
 (defcomp
  comp-confirm
@@ -88,7 +88,7 @@
           {:style style/button,
            :class-name schema/confirm-button-name,
            :on-click (fn [e d! m!] (on-confirm! e d! m!) (m! (assoc state :show? false)))}
-          (<> "Confirm")))))))))
+          (<> (or (:button-text options) "Confirm"))))))))))
 
 (defcomp
  comp-prompt
@@ -117,7 +117,6 @@
         (div
          {}
          (let [props {:class-name schema/input-box-name,
-                      :placeholder "",
                       :value text,
                       :on-input (fn [e d! m!] (m! (assoc state :text (:value e)))),
                       :on-keydown (fn [e d! m!]
@@ -129,7 +128,8 @@
                                (m! (assoc state :show? false :text nil))))
                             (do
                              (on-finish! text d! m!)
-                             (m! (assoc state :show? false :text nil))))))}]
+                             (m! (assoc state :show? false :text nil)))))),
+                      :placeholder (or (:placeholder options) "")}]
            (if (:multiline? options)
              (textarea
               (merge
@@ -157,7 +157,7 @@
                  (do
                   (on-finish! text d! m!)
                   (m! (assoc state :show? false :text nil :failure nil))))))}
-          (<> "Finish")))))))))
+          (<> (or (:button-text options) "Finish"))))))))))
 
 (defcomp
  comp-select

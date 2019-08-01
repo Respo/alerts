@@ -53,6 +53,8 @@ Since every component has its own internal states, I use `cursor->` in all examp
            :input-style {}
            :multiline? false
            :initial "default text"
+           :placeholder "input"
+           :button-text "Submit"
            :validator (fn [x] (if (string/blank? x) "Blank failed" nil))}
           (fn [result dispatch! mutate!]
               (dispatch! :some/action "data")
