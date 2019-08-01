@@ -57,7 +57,7 @@
           {:style style/button,
            :class-name schema/confirm-button-name,
            :on-click (fn [e d! m!] (on-read! e d! m!) (m! (assoc state :show? false)))}
-          (<> "Read")))))))))
+          (<> (or (:button-text options) "Read"))))))))))
 
 (defcomp
  comp-confirm
@@ -88,7 +88,7 @@
           {:style style/button,
            :class-name schema/confirm-button-name,
            :on-click (fn [e d! m!] (on-confirm! e d! m!) (m! (assoc state :show? false)))}
-          (<> "Confirm")))))))))
+          (<> (or (:button-text options) "Confirm"))))))))))
 
 (defcomp
  comp-prompt
@@ -157,7 +157,7 @@
                  (do
                   (on-finish! text d! m!)
                   (m! (assoc state :show? false :text nil :failure nil))))))}
-          (<> "Finish")))))))))
+          (<> (or (:button-text options) "Finish"))))))))))
 
 (defcomp
  comp-select
