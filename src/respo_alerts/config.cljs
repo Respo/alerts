@@ -20,6 +20,4 @@
    :storage-key "alerts",
    :dev-ui "http://localhost:8100/main.css",
    :release-ui "http://cdn.tiye.me/favored-fonts/main.css",
-   :cdn-url "http://cdn.tiye.me/respo-alerts/",
-   :cdn-folder "tiye.me:cdn/respo-alerts/",
-   :upload-folder "tiye.me:repo/Respo/alerts/"})
+   :cdn-url "http://cdn.tiye.me/respo-alerts/"})
