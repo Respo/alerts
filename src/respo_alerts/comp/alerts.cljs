@@ -25,7 +25,7 @@
             [respo-alerts.style :as style]
             [clojure.string :as string]))
 
-(defeffect effect-focus (query) (query') (action el) (focus-element! query))
+(defeffect effect-focus (query) (action el *local) (focus-element! query))
 
 (defcomp
  comp-alert-modal
@@ -100,8 +100,7 @@
 (defeffect
  effect-select
  (query)
- (query')
- (action el)
+ (action el *local)
  (when (= action :mount) (select-element! query)))
 
 (defcomp
@@ -109,7 +108,17 @@
  (states options on-finish! on-close!)
  (let [initial-text (or (:initial options) "")
        state (or (:data states) {:text initial-text, :failure nil})
-       text (or (:text state) initial-text)]
+       text (or (:text state) initial-text)
+       check-submit! (fn [d! m!]
+                       (let [validator (:validator options)
+                             result (if (fn? validator) (validator text) nil)]
+                         (println "Validate res" result)
+                         (if (some? result)
+                           (m! (assoc state :failure result))
+                           (do
+                            (on-finish! text d! m!)
+                            (on-close! m!)
+                            (m! (assoc state :text nil :failure nil))))))]
    [(effect-select (str "." schema/input-box-name))
     (div
      {:style (merge ui/fullscreen ui/center style/backdrop),
@@ -126,15 +135,8 @@
                     :on-keydown (fn [e d! m!]
                       (when (and (not= 229 (:keycode e)) (= (:key e) "Enter"))
                         (if (:multiline? options)
-                          (when (.-metaKey (:event e))
-                            (do
-                             (on-finish! text d! m!)
-                             (on-close! m!)
-                             (m! (assoc state :text nil))))
-                          (do
-                           (on-finish! text d! m!)
-                           (on-close! m!)
-                           (m! (assoc state :text nil)))))),
+                          (when (.-metaKey (:event e)) (check-submit! d! m!))
+                          (check-submit! d! m!)))),
                     :placeholder (or (:placeholder options) "")}]
          (if (:multiline? options)
            (textarea
@@ -154,16 +156,7 @@
           {:style (merge ui/flex {:color :red, :line-height "20px"}), :inner-text failure})
          (span nil))
        (button
-        {:style style/button,
-         :on-click (fn [e d! m!]
-           (let [validator (:validator options)
-                 result (if (fn? validator) (validator text) nil)]
-             (if (some? result)
-               (m! (assoc state :failure result))
-               (do
-                (on-finish! text d! m!)
-                (on-close! m!)
-                (m! (assoc state :text nil :failure nil))))))}
+        {:style style/button, :on-click (fn [e d! m!] (check-submit! d! m!))}
         (<> (or (:button-text options) "Finish"))))))]))
 
 (defcomp
