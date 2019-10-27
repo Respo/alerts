@@ -25,28 +25,60 @@
             [respo-alerts.style :as style]
             [clojure.string :as string]))
 
-(defeffect effect-focus (query) (action el *local) (focus-element! query))
+(defeffect
+ effect-fade
+ (show?)
+ (action el *local)
+ (case action
+   :before-update
+     (if show?
+       (do)
+       (let [target (.-firstElementChild el)
+             cloned (.cloneNode target true)
+             style (.-style cloned)]
+         (.appendChild el cloned)
+         (js/setTimeout (fn [] (set! (.-opacity style) 0)) 10)
+         (js/setTimeout (fn [] (.remove cloned)) 300)))
+   :update
+     (if show?
+       (let [target (.-firstElementChild el), style (.-style target)]
+         (set! (.-opacity style) 0)
+         (js/setTimeout
+          (fn [] (set! (.-transitionDuration style) "300ms") (set! (.-opacity style) 1))
+          100))
+       (do))
+   (do)))
+
+(defeffect
+ effect-focus
+ (query show?)
+ (action el *local)
+ (case (:update (when show? (focus-element! query))) (do)))
 
 (defcomp
  comp-alert-modal
- (options on-read! on-close!)
- [(effect-focus (str "." schema/confirm-button-name))
+ (options show? on-read! on-close!)
+ [(effect-focus (str "." schema/confirm-button-name) show?)
+  (effect-fade show?)
   (div
-   {:style (merge ui/fullscreen ui/center style/backdrop),
-    :on-click (fn [e d! m!]
-      (let [event (:event e)] (.stopPropagation event) (on-read! e d! m!) (on-close! m!)))}
-   (div
-    {:style (merge ui/column style/card), :on-click (fn [e d! m!] )}
-    (div {} (<> (or (:text options) "Alert!")))
-    (=< nil 8)
-    (div
-     {:style ui/row-parted}
-     (span nil)
-     (button
-      {:style style/button,
-       :class-name schema/confirm-button-name,
-       :on-click (fn [e d! m!] (on-read! e d! m!) (on-close! m!))}
-      (<> (or (:button-text options) "Read"))))))])
+   {}
+   (if show?
+     (div
+      {:style (merge ui/fullscreen ui/center style/backdrop),
+       :on-click (fn [e d! m!]
+         (let [event (:event e)] (.stopPropagation event) (on-read! e d! m!) (on-close! m!)))}
+      (div
+       {:style (merge ui/column style/card), :on-click (fn [e d! m!] )}
+       (div {} (<> (or (:text options) "Alert!")))
+       (=< nil 8)
+       (div
+        {:style ui/row-parted}
+        (span nil)
+        (button
+         {:style style/button,
+          :class-name schema/confirm-button-name,
+          :on-click (fn [e d! m!] (on-read! e d! m!) (on-close! m!))}
+         (<> (or (:button-text options) "Read"))))))))])
 
 (defcomp
  comp-alert
@@ -58,28 +90,35 @@
     {:style (merge {:cursor :pointer, :display :inline-block} (:style options)),
      :on-click (fn [e d! m!] (m! (assoc state :show? true)))}
     trigger
-    (when (:show? state)
-      (comp-alert-modal options on-read! (fn [m!] (m! %cursor (assoc state :show? false))))))))
+    (comp-alert-modal
+     options
+     (:show? state)
+     on-read!
+     (fn [m!] (m! %cursor (assoc state :show? false)))))))
 
 (defcomp
  comp-confirm-modal
- (options on-confirm! on-close!)
- [(effect-focus (str "." schema/confirm-button-name))
+ (options show? on-confirm! on-close!)
+ [(effect-focus (str "." schema/confirm-button-name) show?)
+  (effect-fade show?)
   (div
-   {:style (merge ui/fullscreen ui/center style/backdrop),
-    :on-click (fn [e d! m!] (on-close! m!))}
-   (div
-    {:style (merge ui/column style/card), :on-click (fn [e d! m!] )}
-    (div {} (<> (or (:text options) "Confirm?")))
-    (=< nil 8)
-    (div
-     {:style ui/row-parted}
-     (span nil)
-     (button
-      {:style style/button,
-       :class-name schema/confirm-button-name,
-       :on-click (fn [e d! m!] (on-confirm! e d! m!) (on-close! m!))}
-      (<> (or (:button-text options) "Confirm"))))))])
+   {}
+   (if show?
+     (div
+      {:style (merge ui/fullscreen ui/center style/backdrop),
+       :on-click (fn [e d! m!] (on-close! m!))}
+      (div
+       {:style (merge ui/column style/card), :on-click (fn [e d! m!] )}
+       (div {} (<> (or (:text options) "Confirm?")))
+       (=< nil 8)
+       (div
+        {:style ui/row-parted}
+        (span nil)
+        (button
+         {:style style/button,
+          :class-name schema/confirm-button-name,
+          :on-click (fn [e d! m!] (on-confirm! e d! m!) (on-close! m!))}
+         (<> (or (:button-text options) "Confirm"))))))))])
 
 (defcomp
  comp-confirm
@@ -91,21 +130,21 @@
     {:style (merge {:cursor :pointer, :display :inline-block} (:style options)),
      :on-click (fn [e d! m!] (m! (assoc state :show? true)))}
     trigger
-    (when (:show? state)
-      (comp-confirm-modal
-       options
-       on-confirm!
-       (fn [m!] (m! %cursor (assoc state :show? false))))))))
+    (comp-confirm-modal
+     options
+     (:show? state)
+     on-confirm!
+     (fn [m!] (m! %cursor (assoc state :show? false)))))))
 
 (defeffect
  effect-select
- (query)
+ (query show?)
  (action el *local)
- (when (= action :mount) (select-element! query)))
+ (case (:update (when show? (select-element! query))) (do)))
 
 (defcomp
  comp-prompt-modal
- (states options on-finish! on-close!)
+ (states options show? on-finish! on-close!)
  (let [initial-text (or (:initial options) "")
        state (or (:data states) {:text initial-text, :failure nil})
        text (or (:text state) initial-text)
@@ -119,45 +158,52 @@
                             (on-finish! text d! m!)
                             (on-close! m!)
                             (m! (assoc state :text nil :failure nil))))))]
-   [(effect-select (str "." schema/input-box-name))
+   [(effect-select (str "." schema/input-box-name) show?)
+    (effect-fade show?)
     (div
-     {:style (merge ui/fullscreen ui/center style/backdrop),
-      :on-click (fn [e d! m!] (on-close! m!) (m! (assoc state :text nil :failure nil)))}
-     (div
-      {:style (merge ui/column style/card), :on-click (fn [e d! m!] )}
-      (div {} (<> (or (:text options) "Type in text")))
-      (=< nil 8)
-      (div
-       {}
-       (let [props {:class-name schema/input-box-name,
-                    :value text,
-                    :on-input (fn [e d! m!] (m! (assoc state :text (:value e)))),
-                    :on-keydown (fn [e d! m!]
-                      (when (and (not= 229 (:keycode e)) (= (:key e) "Enter"))
-                        (if (:multiline? options)
-                          (when (.-metaKey (:event e)) (check-submit! d! m!))
-                          (check-submit! d! m!)))),
-                    :placeholder (or (:placeholder options) "")}]
-         (if (:multiline? options)
-           (textarea
-            (merge
-             props
-             {:style (merge
-                      ui/textarea
-                      {:width "100%", :min-height 120}
-                      (:input-style options))}))
-           (input
-            (merge props {:style (merge ui/input {:width "100%"} (:input-style options))})))))
-      (=< nil 16)
-      (div
-       {:style ui/row-parted}
-       (if-let [failure (:failure state)]
-         (span
-          {:style (merge ui/flex {:color :red, :line-height "20px"}), :inner-text failure})
-         (span nil))
-       (button
-        {:style style/button, :on-click (fn [e d! m!] (check-submit! d! m!))}
-        (<> (or (:button-text options) "Finish"))))))]))
+     {}
+     (if show?
+       (div
+        {:style (merge ui/fullscreen ui/center style/backdrop),
+         :on-click (fn [e d! m!] (on-close! m!) (m! (assoc state :text nil :failure nil)))}
+        (div
+         {:style (merge ui/column style/card), :on-click (fn [e d! m!] )}
+         (div {} (<> (or (:text options) "Type in text")))
+         (=< nil 8)
+         (div
+          {}
+          (let [props {:class-name schema/input-box-name,
+                       :value text,
+                       :on-input (fn [e d! m!] (m! (assoc state :text (:value e)))),
+                       :on-keydown (fn [e d! m!]
+                         (when (and (not= 229 (:keycode e)) (= (:key e) "Enter"))
+                           (if (:multiline? options)
+                             (when (.-metaKey (:event e)) (check-submit! d! m!))
+                             (check-submit! d! m!)))),
+                       :placeholder (or (:placeholder options) "")}]
+            (if (:multiline? options)
+              (textarea
+               (merge
+                props
+                {:style (merge
+                         ui/textarea
+                         {:width "100%", :min-height 120}
+                         (:input-style options))}))
+              (input
+               (merge
+                props
+                {:style (merge ui/input {:width "100%"} (:input-style options))})))))
+         (=< nil 16)
+         (div
+          {:style ui/row-parted}
+          (if-let [failure (:failure state)]
+            (span
+             {:style (merge ui/flex {:color :red, :line-height "20px"}),
+              :inner-text failure})
+            (span nil))
+          (button
+           {:style style/button, :on-click (fn [e d! m!] (check-submit! d! m!))}
+           (<> (or (:button-text options) "Finish"))))))))]))
 
 (defcomp
  comp-prompt
@@ -169,14 +215,14 @@
     {:style (merge {:cursor :pointer, :display :inline-block} (:style options)),
      :on-click (fn [e d! m!] (m! (assoc state :show? true)))}
     trigger
-    (if (:show? state)
-      (cursor->
-       :modal
-       comp-prompt-modal
-       states
-       options
-       on-finish!
-       (fn [m!] (m! %cursor (assoc state :show? false))))))))
+    (cursor->
+     :modal
+     comp-prompt-modal
+     states
+     options
+     (:show? state)
+     on-finish!
+     (fn [m!] (m! %cursor (assoc state :show? false)))))))
 
 (defcomp
  comp-select
