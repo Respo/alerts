@@ -1,7 +1,7 @@
 
 {:pom {:group-id "respo",
        :artifact-id "alerts",
-       :version "0.3.14",
+       :version "0.3.15-a2",
        :name "Respo alerts library."}
  :packaging {:jar {:enabled true
                    :remote-repository {:id "clojars"
