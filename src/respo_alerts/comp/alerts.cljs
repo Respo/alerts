@@ -23,7 +23,8 @@
             [respo-alerts.schema :as schema]
             [respo-alerts.util :refer [focus-element! select-element!]]
             [respo-alerts.style :as style]
-            [clojure.string :as string]))
+            [clojure.string :as string]
+            [cumulo-util.core :refer [delay!]]))
 
 (defeffect
  effect-fade
@@ -37,15 +38,15 @@
              cloned (.cloneNode target true)
              style (.-style cloned)]
          (.appendChild el cloned)
-         (js/setTimeout (fn [] (set! (.-opacity style) 0)) 10)
-         (js/setTimeout (fn [] (.remove cloned)) 300)))
+         (delay! 0.01 (fn [] (set! (.-opacity style) 0)))
+         (delay! 0.2 (fn [] (.remove cloned)))))
    :update
      (if show?
        (let [target (.-firstElementChild el), style (.-style target)]
          (set! (.-opacity style) 0)
-         (js/setTimeout
-          (fn [] (set! (.-transitionDuration style) "300ms") (set! (.-opacity style) 1))
-          100))
+         (delay!
+          0.01
+          (fn [] (set! (.-transitionDuration style) "200ms") (set! (.-opacity style) 1))))
        (do))
    (do)))
 
