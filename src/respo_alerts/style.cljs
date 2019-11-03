@@ -17,4 +17,5 @@
    :overflow :auto,
    :border-radius "3px",
    :color (hsl 0 0 0),
-   :margin :auto})
+   :margin :auto,
+   :padding 16})

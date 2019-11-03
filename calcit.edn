@@ -3027,6 +3027,19 @@
                        "T" {:type :leaf, :by "rJG4IHzWf", :at 1572780776614, :text "merge", :id "H-SA0yXdxZu"}
                        "j" {:type :leaf, :by "rJG4IHzWf", :at 1572780776614, :text "ui/column", :id "MIU5wkoNWHV"}
                        "r" {:type :leaf, :by "rJG4IHzWf", :at 1572780776614, :text "style/card", :id "SdbWiP7qzCG"}
+                       "t" {
+                        :type :expr, :by "rJG4IHzWf", :at 1572796916629, :id "-CksC4xEs"
+                        :data {
+                         "T" {:type :leaf, :by "rJG4IHzWf", :at 1572796916983, :text "{}", :id "8fJboVNh9N"}
+                         "j" {
+                          :type :expr, :by "rJG4IHzWf", :at 1572796917241, :id "QPYTLl5I1O"
+                          :data {
+                           "T" {:type :leaf, :by "rJG4IHzWf", :at 1572796920361, :text ":padding", :id "lpjpF1um8P"}
+                           "j" {:type :leaf, :by "rJG4IHzWf", :at 1572796921059, :text "0", :id "Avv-brVswY"}
+                          }
+                         }
+                        }
+                       }
                        "v" {
                         :type :expr, :by "rJG4IHzWf", :at 1572781507157, :id "Zp8tp09L3m"
                         :data {
@@ -7286,7 +7299,7 @@
           :type :expr, :by "root", :at 1528046581576, :id "Sy0g4iZe7"
           :data {
            "T" {:type :leaf, :by "root", :at 1528046583414, :text ":border-radius", :id "Sy0g4iZe7leaf"}
-           "j" {:type :leaf, :by "rJG4IHzWf", :at 1572795952689, :text "\"3px", :id "r1gZ4jblQ"}
+           "j" {:type :leaf, :by "rJG4IHzWf", :at 1572796179306, :text "\"3px", :id "r1gZ4jblQ"}
           }
          }
          "y" {
@@ -7309,6 +7322,13 @@
           :data {
            "T" {:type :leaf, :by "rJG4IHzWf", :at 1534869356241, :text ":margin", :id "5zZ1RcRyL8leaf"}
            "j" {:type :leaf, :by "rJG4IHzWf", :at 1534869357205, :text ":auto", :id "UAUqploDbk"}
+          }
+         }
+         "yj" {
+          :type :expr, :by "rJG4IHzWf", :at 1572796895260, :id "2jLZ96mTUH"
+          :data {
+           "T" {:type :leaf, :by "rJG4IHzWf", :at 1572796896415, :text ":padding", :id "2jLZ96mTUHleaf"}
+           "j" {:type :leaf, :by "rJG4IHzWf", :at 1572796900944, :text "16", :id "jbjIh3za_"}
           }
          }
         }
