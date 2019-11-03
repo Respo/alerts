@@ -15,7 +15,6 @@
    :width "100%",
    :max-height "80vh",
    :overflow :auto,
-   :padding 16,
-   :border-radius "4px",
+   :border-radius "3px",
    :color (hsl 0 0 0),
    :margin :auto})

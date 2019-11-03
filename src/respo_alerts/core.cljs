@@ -164,8 +164,7 @@
       (div
        {:style (merge ui/column style/card (:style options)), :on-click (fn [e d! m!] )}
        (let [title (:title options)]
-         (if (some? title)
-           (div {:style (merge ui/center {:padding "0 8px 8px 8px"})} (<> title))))
+         (if (some? title) (div {:style (merge ui/center {:padding "8px"})} (<> title))))
        (renderer)))))])
 
 (defeffect

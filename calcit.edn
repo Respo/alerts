@@ -3118,7 +3118,7 @@
                                 :type :expr, :by "rJG4IHzWf", :at 1572781330214, :id "SlsXlb8hQl"
                                 :data {
                                  "T" {:type :leaf, :by "rJG4IHzWf", :at 1572781331394, :text ":padding", :id "6bWgnrjLrk"}
-                                 "j" {:type :leaf, :by "rJG4IHzWf", :at 1572781356165, :text "\"0 8px 8px 8px", :id "TVYRYVSG5j"}
+                                 "j" {:type :leaf, :by "rJG4IHzWf", :at 1572795831270, :text "\"8px", :id "TVYRYVSG5j"}
                                 }
                                }
                               }
@@ -7282,18 +7282,11 @@
            "j" {:type :leaf, :by "root", :at 1534183902252, :text ":auto", :id "GAlEc3VMH"}
           }
          }
-         "v" {
-          :type :expr, :by "root", :at 1528046566150, :id "r1WCJNjblm"
-          :data {
-           "T" {:type :leaf, :by "root", :at 1528046568572, :text ":padding", :id "r1WCJNjblmleaf"}
-           "j" {:type :leaf, :by "root", :at 1528046575786, :text "16", :id "rJl-l4sWx7"}
-          }
-         }
          "x" {
           :type :expr, :by "root", :at 1528046581576, :id "Sy0g4iZe7"
           :data {
            "T" {:type :leaf, :by "root", :at 1528046583414, :text ":border-radius", :id "Sy0g4iZe7leaf"}
-           "j" {:type :leaf, :by "root", :at 1530555052268, :text "\"4px", :id "r1gZ4jblQ"}
+           "j" {:type :leaf, :by "rJG4IHzWf", :at 1572795952689, :text "\"3px", :id "r1gZ4jblQ"}
           }
          }
          "y" {
