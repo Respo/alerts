@@ -1,5 +1,5 @@
 
-(ns respo-alerts.comp.alerts
+(ns respo-alerts.core
   (:require [hsl.core :refer [hsl]]
             [respo-ui.core :as ui]
             [respo.core
@@ -149,6 +149,24 @@
      (:show? state)
      on-confirm!
      (fn [m!] (m! %cursor (assoc state :show? false)))))))
+
+(defcomp
+ comp-modal
+ (show? options on-close! renderer)
+ [(effect-fade show?)
+  (div
+   {}
+   (if show?
+     (div
+      {:style (merge ui/fullscreen ui/center style/backdrop),
+       :on-click (fn [e d! m!]
+         (let [event (:event e)] (.stopPropagation event) (on-close! m!)))}
+      (div
+       {:style (merge ui/column style/card (:style options)), :on-click (fn [e d! m!] )}
+       (let [title (:title options)]
+         (if (some? title)
+           (div {:style (merge ui/center {:padding "0 8px 8px 8px"})} (<> title))))
+       (renderer)))))])
 
 (defeffect
  effect-select

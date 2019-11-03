@@ -15,7 +15,7 @@ Alerts
 This library provides several UI components, so you need to control their visibilities with your own states, for example: `{:show-alert? true}`.
 
 ```clojure
-[respo-alerts.comp.alerts :refer [comp-alert comp-prompt comp-confirm]]
+[respo-alerts.core :refer [comp-alert comp-prompt comp-confirm]]
 ```
 
 Since every component has its own internal states, I use `cursor->` in all examples:
@@ -75,6 +75,17 @@ Since every component has its own internal states, I use `cursor->` in all examp
           (fn [result d! m!]
               (println "finish selecting!" result)
               (m! %cursor (assoc state :selected result))))
+```
+
+`comp-modal` for rendering modal without child:
+
+```clojure
+(let [on-close (fn [m!] (m! %cursor (assoc state :show? false)))]
+ (comp-modal
+  (:show? state)
+  {:title "Demo", :style {:width 400}}
+  on-close
+  (fn [] (div {} (<> "Place for child content")))))
 ```
 
 ### Workflow

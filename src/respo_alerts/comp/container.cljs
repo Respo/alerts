@@ -9,9 +9,9 @@
             [reel.comp.reel :refer [comp-reel]]
             [respo-md.comp.md :refer [comp-md]]
             [respo-alerts.config :refer [dev?]]
-            [respo-alerts.comp.alerts
+            [respo-alerts.core
              :refer
-             [comp-alert comp-confirm comp-prompt comp-select]]
+             [comp-alert comp-confirm comp-prompt comp-select comp-modal]]
             [respo.comp.inspect :refer [comp-inspect]]
             [respo-alerts.style :as style]
             [clojure.string :as string]
@@ -24,9 +24,9 @@
  (reel)
  (let [store (:store reel)
        states (:states store)
-       state (or (:data states) {:selected ""})]
+       state (or (:data states) {:selected "", :show-modal? false})]
    (div
-    {:style (merge ui/global ui/row ui/fullscreen {:overflow :auto})}
+    {:style (merge ui/global ui/fullscreen ui/column {:overflow :auto})}
     (div
      {:style (merge ui/row {:padding 16, :align-items :flex-start})}
      (cursor->
@@ -97,5 +97,17 @@
       (fn [result d! m!]
         (println "finish selecting!" result)
         (m! %cursor (assoc state :selected result)))))
+    (div
+     {:style {:padding 16}}
+     (button
+      {:style ui/button,
+       :inner-text "Modal",
+       :on-click (fn [e d! m!] (m! (assoc state :show? true)))})
+     (let [on-close (fn [m!] (m! %cursor (assoc state :show? false)))]
+       (comp-modal
+        (:show? state)
+        {:title "Demo", :style {:width 400}}
+        on-close
+        (fn [] (div {} (<> "Place for child content"))))))
     (when dev? (comp-inspect "states" states {:bottom 0}))
     (when dev? (cursor-> :reel comp-reel states reel {})))))
