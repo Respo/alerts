@@ -88,6 +88,17 @@ Since every component has its own internal states, I use `cursor->` in all examp
   (fn [] (div {} (<> "Place for child content")))))
 ```
 
+```clojure
+(comp-modal-menu
+  (:show-modal-menu? state)
+  {:title "Demo", :style {:width 300}}
+  [{:value "a", :display "A"} {:value "b", :display (div {} (<> "B"))}]
+  (fn [m!] (m! %cursor (assoc state :show-modal-menu? false)))
+  (fn [result d! m!]
+    (println "result" result)
+    (m! %cursor (assoc state :show-modal-menu? false)))))
+```
+
 ### Workflow
 
 Workflow https://github.com/mvc-works/calcit-workflow
