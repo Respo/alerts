@@ -11,7 +11,7 @@
             [respo-alerts.config :refer [dev?]]
             [respo-alerts.core
              :refer
-             [comp-alert comp-confirm comp-prompt comp-select comp-modal]]
+             [comp-alert comp-confirm comp-prompt comp-select comp-modal comp-modal-menu]]
             [respo.comp.inspect :refer [comp-inspect]]
             [respo-alerts.style :as style]
             [clojure.string :as string]
@@ -24,7 +24,7 @@
  (reel)
  (let [store (:store reel)
        states (:states store)
-       state (or (:data states) {:selected "", :show-modal? false})]
+       state (or (:data states) {:selected "", :show-modal? false, :show-modal-menu? false})]
    (div
     {:style (merge ui/global ui/fullscreen ui/column {:overflow :auto})}
     (div
@@ -98,16 +98,28 @@
         (println "finish selecting!" result)
         (m! %cursor (assoc state :selected result)))))
     (div
-     {:style {:padding 16}}
+     {:style (merge ui/row {:padding 16})}
      (button
       {:style ui/button,
        :inner-text "Modal",
-       :on-click (fn [e d! m!] (m! (assoc state :show? true)))})
-     (let [on-close (fn [m!] (m! %cursor (assoc state :show? false)))]
+       :on-click (fn [e d! m!] (m! (assoc state :show-modal? true)))})
+     (let [on-close (fn [m!] (m! %cursor (assoc state :show-modal? false)))]
        (comp-modal
-        (:show? state)
+        (:show-modal? state)
         {:title "Demo", :style {:width 400}}
         on-close
-        (fn [] (div {} (<> "Place for child content"))))))
+        (fn [] (div {} (<> "Place for child content")))))
+     (button
+      {:style ui/button,
+       :inner-text "Modal Menu",
+       :on-click (fn [e d! m!] (m! (assoc state :show-modal-menu? true)))})
+     (comp-modal-menu
+      (:show-modal-menu? state)
+      {:title "Demo", :style {:width 300}}
+      [{:value "a", :display "A"} {:value "b", :display (div {} (<> "B"))}]
+      (fn [m!] (m! %cursor (assoc state :show-modal-menu? false)))
+      (fn [result d! m!]
+        (println "result" result)
+        (m! %cursor (assoc state :show-modal-menu? false)))))
     (when dev? (comp-inspect "states" states {:bottom 0}))
     (when dev? (cursor-> :reel comp-reel states reel {})))))

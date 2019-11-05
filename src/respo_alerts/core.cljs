@@ -34,18 +34,19 @@
    :before-update
      (if show?
        (do)
-       (let [target (.-firstElementChild el)
-             cloned (.cloneNode target true)
-             style (.-style cloned)
-             card-style (-> cloned .-firstElementChild .-style)]
-         (.appendChild el cloned)
-         (delay!
-          0.01
-          (fn []
-            (set! (.-opacity style) 0)
-            (set! (.-transitionDuration card-style) "100ms")
-            (set! (.-transform card-style) "scale(0.94) translate(0px,-20px)")))
-         (delay! 0.2 (fn [] (.remove cloned)))))
+       (if (some? (.-firstElementChild el))
+         (let [target (.-firstElementChild el)
+               cloned (.cloneNode target true)
+               style (.-style cloned)
+               card-style (-> cloned .-firstElementChild .-style)]
+           (.appendChild el cloned)
+           (delay!
+            0.01
+            (fn []
+              (set! (.-opacity style) 0)
+              (set! (.-transitionDuration card-style) "100ms")
+              (set! (.-transform card-style) "scale(0.94) translate(0px,-20px)")))
+           (delay! 0.2 (fn [] (.remove cloned))))))
    :update
      (if show?
        (let [target (.-firstElementChild el)
@@ -167,6 +168,45 @@
        (let [title (:title options)]
          (if (some? title) (div {:style (merge ui/center {:padding "8px"})} (<> title))))
        (renderer)))))])
+
+(def style-menu-item
+  {:border-top (str "1px solid " (hsl 0 0 90)),
+   :padding "0 16px",
+   :cursor :pointer,
+   :white-space :nowrap,
+   :line-height "32px"})
+
+(defcomp
+ comp-modal-menu
+ (show? options menu-items on-close! on-select!)
+ [(effect-fade show?)
+  (div
+   {}
+   (if show?
+     (div
+      {:style (merge ui/fullscreen ui/center style/backdrop),
+       :on-click (fn [e d! m!]
+         (let [event (:event e)] (.stopPropagation event) (on-close! m!)))}
+      (div
+       {:style (merge ui/column style/card {:padding 0} (:style options)),
+        :on-click (fn [e d! m!] )}
+       (let [title (:title options)]
+         (if (some? title)
+           (div
+            {:style (merge
+                     ui/center
+                     {:padding "4px", :font-family ui/font-fancy, :color (hsl 0 0 70)})}
+            (<> title))))
+       (list->
+        {}
+        (->> menu-items
+             (map
+              (fn [item]
+                [(:value item)
+                 (div
+                  {:style style-menu-item, :on-click (fn [e d! m!] (on-select! item d! m!))}
+                  (let [display (:display item)]
+                    (if (string? display) (<> display) display)))]))))))))])
 
 (defeffect
  effect-select
