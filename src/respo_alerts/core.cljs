@@ -39,14 +39,14 @@
                cloned (.cloneNode target true)
                style (.-style cloned)
                card-style (-> cloned .-firstElementChild .-style)]
-           (.appendChild el cloned)
+           (.appendChild js/document.body cloned)
            (delay!
             0.01
             (fn []
               (set! (.-opacity style) 0)
-              (set! (.-transitionDuration card-style) "100ms")
+              (set! (.-transitionDuration card-style) "240ms")
               (set! (.-transform card-style) "scale(0.94) translate(0px,-20px)")))
-           (delay! 0.2 (fn [] (.remove cloned))))))
+           (delay! 0.24 (fn [] (.remove cloned))))))
    :update
      (if show?
        (let [target (.-firstElementChild el)
@@ -57,8 +57,8 @@
          (delay!
           0.01
           (fn []
-            (set! (.-transitionDuration style) "200ms")
-            (set! (.-transitionDuration card-style) "200ms")
+            (set! (.-transitionDuration style) "240ms")
+            (set! (.-transitionDuration card-style) "240ms")
             (set! (.-opacity style) 1)
             (set! (.-transform card-style) "scale(1) translate(0px,0px)"))))
        (do))
