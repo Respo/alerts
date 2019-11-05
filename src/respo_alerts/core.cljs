@@ -174,7 +174,7 @@
    :padding "0 16px",
    :cursor :pointer,
    :white-space :nowrap,
-   :line-height "32px"})
+   :line-height "40px"})
 
 (defcomp
  comp-modal-menu
@@ -333,7 +333,7 @@
                      (div
                       {:style (merge
                                {:border-bottom (str "1px solid " (hsl 0 0 90)),
-                                :line-height "32px",
+                                :line-height "40px",
                                 :padding "0 8px"}
                                (when (= selected-value (:value candidate))
                                  {:background-color (hsl 0 0 96)})),

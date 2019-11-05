@@ -6187,7 +6187,7 @@
                                           :type :expr, :by "rJG4IHzWf", :at 1572192345794, :id "6JRVs4kx_r7"
                                           :data {
                                            "T" {:type :leaf, :by "rJG4IHzWf", :at 1572192345794, :text ":line-height", :id "I4njqJ-Vq6v"}
-                                           "j" {:type :leaf, :by "rJG4IHzWf", :at 1572192345794, :text "\"32px", :id "8pF9fxboE8K"}
+                                           "j" {:type :leaf, :by "rJG4IHzWf", :at 1572969273153, :text "\"40px", :id "8pF9fxboE8K"}
                                           }
                                          }
                                          "v" {
@@ -6897,7 +6897,7 @@
           :type :expr, :by "rJG4IHzWf", :at 1572887496696, :id "vXrE8aIBh"
           :data {
            "T" {:type :leaf, :by "rJG4IHzWf", :at 1572887501763, :text ":line-height", :id "vXrE8aIBhleaf"}
-           "j" {:type :leaf, :by "rJG4IHzWf", :at 1572887521847, :text "\"32px", :id "Z7ORXEN5g"}
+           "j" {:type :leaf, :by "rJG4IHzWf", :at 1572969187690, :text "\"40px", :id "Z7ORXEN5g"}
           }
          }
         }
