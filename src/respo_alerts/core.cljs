@@ -39,14 +39,14 @@
                cloned (.cloneNode target true)
                style (.-style cloned)
                card-style (-> cloned .-firstElementChild .-style)]
-           (.appendChild el cloned)
+           (.appendChild js/document.body cloned)
            (delay!
             0.01
             (fn []
               (set! (.-opacity style) 0)
-              (set! (.-transitionDuration card-style) "100ms")
+              (set! (.-transitionDuration card-style) "240ms")
               (set! (.-transform card-style) "scale(0.94) translate(0px,-20px)")))
-           (delay! 0.2 (fn [] (.remove cloned))))))
+           (delay! 0.24 (fn [] (.remove cloned))))))
    :update
      (if show?
        (let [target (.-firstElementChild el)
@@ -57,8 +57,8 @@
          (delay!
           0.01
           (fn []
-            (set! (.-transitionDuration style) "200ms")
-            (set! (.-transitionDuration card-style) "200ms")
+            (set! (.-transitionDuration style) "240ms")
+            (set! (.-transitionDuration card-style) "240ms")
             (set! (.-opacity style) 1)
             (set! (.-transform card-style) "scale(1) translate(0px,0px)"))))
        (do))
@@ -174,7 +174,7 @@
    :padding "0 16px",
    :cursor :pointer,
    :white-space :nowrap,
-   :line-height "32px"})
+   :line-height "40px"})
 
 (defcomp
  comp-modal-menu
@@ -333,7 +333,7 @@
                      (div
                       {:style (merge
                                {:border-bottom (str "1px solid " (hsl 0 0 90)),
-                                :line-height "32px",
+                                :line-height "40px",
                                 :padding "0 8px"}
                                (when (= selected-value (:value candidate))
                                  {:background-color (hsl 0 0 96)})),
