@@ -83,7 +83,8 @@
        :on-click (fn [e d! m!]
          (let [event (:event e)] (.stopPropagation event) (on-read! e d! m!) (on-close! m!)))}
       (div
-       {:style (merge ui/column style/card), :on-click (fn [e d! m!] )}
+       {:style (merge ui/column style/card ui/global {:line-height "32px"}),
+        :on-click (fn [e d! m!] )}
        (div {} (<> (or (:text options) "Alert!")))
        (=< nil 8)
        (div
@@ -123,7 +124,8 @@
       {:style (merge ui/fullscreen ui/center style/backdrop),
        :on-click (fn [e d! m!] (on-close! m!))}
       (div
-       {:style (merge ui/column style/card), :on-click (fn [e d! m!] )}
+       {:style (merge ui/column ui/global style/card {:line-height "32px"}),
+        :on-click (fn [e d! m!] )}
        (div {} (<> (or (:text options) "Confirm?")))
        (=< nil 8)
        (div
@@ -163,7 +165,12 @@
        :on-click (fn [e d! m!]
          (let [event (:event e)] (.stopPropagation event) (on-close! m!)))}
       (div
-       {:style (merge ui/column style/card {:padding 0} (:style options)),
+       {:style (merge
+                ui/global
+                ui/column
+                style/card
+                {:padding 0, :line-height "32px"}
+                (:style options)),
         :on-click (fn [e d! m!] )}
        (let [title (:title options)]
          (if (some? title) (div {:style (merge ui/center {:padding "8px"})} (<> title))))
@@ -188,7 +195,12 @@
        :on-click (fn [e d! m!]
          (let [event (:event e)] (.stopPropagation event) (on-close! m!)))}
       (div
-       {:style (merge ui/column style/card {:padding 0} (:style options)),
+       {:style (merge
+                ui/column
+                ui/global
+                style/card
+                {:padding 0, :line-height "32px"}
+                (:style options)),
         :on-click (fn [e d! m!] )}
        (let [title (:title options)]
          (if (some? title)
@@ -236,10 +248,16 @@
      {}
      (if show?
        (div
-        {:style (merge ui/fullscreen ui/center style/backdrop),
+        {:style (merge
+                 ui/fullscreen
+                 ui/global
+                 ui/center
+                 style/backdrop
+                 {:line-height "32px"}),
          :on-click (fn [e d! m!] (on-close! m!) (m! (assoc state :text nil :failure nil)))}
         (div
-         {:style (merge ui/column style/card), :on-click (fn [e d! m!] )}
+         {:style (merge ui/column ui/global style/card {:line-height "32px"}),
+          :on-click (fn [e d! m!] )}
          (div {} (<> (or (:text options) "Type in text")))
          (=< nil 8)
          (div
@@ -308,7 +326,8 @@
        :on-click (fn [e d! m!]
          (let [event (:event e)] (.stopPropagation event) (on-read! nil d! m!) (on-close m!)))}
       (div
-       {:style (merge ui/column style/card), :on-click (fn [e d! m!] )}
+       {:style (merge ui/column ui/global style/card {:line-height "32px"}),
+        :on-click (fn [e d! m!] )}
        (div
         {:style ui/row-parted}
         (<>
