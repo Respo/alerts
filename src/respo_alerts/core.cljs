@@ -158,7 +158,7 @@
  (show? options on-close! renderer)
  [(effect-fade show?)
   (div
-   {}
+   {:style (merge {:position :absolute} (:container-style options))}
    (if show?
      (div
       {:style (merge ui/fullscreen ui/center style/backdrop),

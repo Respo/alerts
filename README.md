@@ -83,7 +83,7 @@ Since every component has its own internal states, I use `cursor->` in all examp
 (let [on-close (fn [m!] (m! %cursor (assoc state :show? false)))]
  (comp-modal
   (:show? state)
-  {:title "Demo", :style {:width 400}}
+  {:title "Demo", :style {:width 400}, :container-style {}}
   on-close
   (fn [] (div {} (<> "Place for child content")))))
 ```
