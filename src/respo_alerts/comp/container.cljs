@@ -32,7 +32,7 @@
     (let [on-close (fn [m!] (m! %cursor (assoc state :show-modal? false)))]
       (comp-modal
        (:show-modal? state)
-       {:title "Demo", :style {:width 400}}
+       {:title "Demo", :style {:width 400}, :container-style {}}
        on-close
        (fn [] (div {} (<> "Place for child content")))))
     (=< 8 nil)
