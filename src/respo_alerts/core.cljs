@@ -235,7 +235,6 @@
        check-submit! (fn [d! m!]
                        (let [validator (:validator options)
                              result (if (fn? validator) (validator text) nil)]
-                         (println "Validate res" result)
                          (if (some? result)
                            (m! (assoc state :failure result))
                            (do
