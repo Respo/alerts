@@ -2954,11 +2954,6 @@
                                                   |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1572089037252) (:text |validator) (:id |pWyusfO9MNi)
                                                   |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1572089037252) (:text |text) (:id |2OpV65iN3qr)
                                               |v $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1572089037252) (:text |nil) (:id |Kd5UtkPlNMP)
-                                  |n $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1572089143885) (:id |gV5Lolkn7T)
-                                    :data $ {}
-                                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1572089146062) (:text |println) (:id |gV5Lolkn7Tleaf)
-                                      |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1572089149731) (:text "|\"Validate res") (:id |YnloNlkV9g)
-                                      |r $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1572089150657) (:text |result) (:id |Mdba3EGfJg)
                                   |r $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1572089037252) (:id |Za-z8ibB9BF)
                                     :data $ {}
                                       |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1572089037252) (:text |if) (:id |HsOPzJ5oUzj)
