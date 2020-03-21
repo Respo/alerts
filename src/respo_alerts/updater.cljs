@@ -1,9 +1,11 @@
 
-(ns respo-alerts.updater (:require [respo.cursor :refer [mutate]]))
+(ns respo-alerts.updater )
 
 (defn updater [store op op-data op-id op-time]
   (case op
-    :states (update store :states (mutate op-data))
+    :states
+      (let [[cursor new-state] op-data]
+        (assoc-in store (concat [:states] cursor [:data]) new-state))
     :content (assoc store :content op-data)
     :hydrate-storage op-data
     store))

@@ -9,7 +9,7 @@ Alerts
 [![Clojars Project](https://img.shields.io/clojars/v/respo/alerts.svg)](https://clojars.org/respo/alerts)
 
 ```edn
-[respo/alerts "0.4.2"]
+[respo/alerts "0.5.0-a1"]
 ```
 
 This library provides several UI components, so you need to control their visibilities with your own states, for example: `{:show-alert? true}`.
@@ -18,12 +18,12 @@ This library provides several UI components, so you need to control their visibi
 [respo-alerts.core :refer [comp-alert comp-prompt comp-confirm]]
 ```
 
-Since every component has its own internal states, I use `cursor->` in all examples:
+Since every component has its own internal states, I use `>>` in all examples:
 
 `comp-alert` is like `alert("message")` but with a callback function:
 
 ```clojure
-(cursor-> :alert comp-alert states
+(comp-alert (>> states :alerts)
           {:trigger (comp-buttom "trigger"),
            :text "message text",
            :style {}}
@@ -34,7 +34,7 @@ Since every component has its own internal states, I use `cursor->` in all examp
 `comp-alert` is like `confirm("message")` but with a callback function returning `result`:
 
 ```clojure
-(cursor-> :confirm comp-confirm states
+(comp-confirm (>> states :confirm)
           {:trigger (comp-button "trigger"),
            :text "message text"
            :style {}}
@@ -46,7 +46,7 @@ Since every component has its own internal states, I use `cursor->` in all examp
 `comp-prompt` is like `prompt("message", "default")` but with a callback function returning `result`:
 
 ```clojure
-(cursor-> :prompt comp-prompt states
+(comp-prompt (>> states :prompt)
           {:trigger (comp-button "trigger"),
            :text "message text",
            :style {}
@@ -69,18 +69,18 @@ Since every component has its own internal states, I use `cursor->` in all examp
                  {:value "clojure", :display "Clojure"}
                  {:value "elixir", :display "Elixir"}])
 
-(cursor-> :select comp-select states (:selected state) candidates
+(comp-select (>> states :select) (:selected state) candidates
           {:style-trigger {},
            :text "Select a item from:"}
-          (fn [result d! m!]
+          (fn [result d!]
               (println "finish selecting!" result)
-              (m! %cursor (assoc state :selected result))))
+              (d! cursor (assoc state :selected result))))
 ```
 
 `comp-modal` for rendering modal without child:
 
 ```clojure
-(let [on-close (fn [m!] (m! %cursor (assoc state :show? false)))]
+(let [on-close (fn [d!] (d! cursor (assoc state :show? false)))]
  (comp-modal
   (:show? state)
   {:title "Demo", :style {:width 400}, :container-style {}}
@@ -93,10 +93,10 @@ Since every component has its own internal states, I use `cursor->` in all examp
   (:show-modal-menu? state)
   {:title "Demo", :style {:width 300}}
   [{:value "a", :display "A"} {:value "b", :display (div {} (<> "B"))}]
-  (fn [m!] (m! %cursor (assoc state :show-modal-menu? false)))
-  (fn [result d! m!]
+  (fn [d!] (d! cursor (assoc state :show-modal-menu? false)))
+  (fn [result d!]
     (println "result" result)
-    (m! %cursor (assoc state :show-modal-menu? false)))))
+    (d! cursor (assoc state :show-modal-menu? false)))))
 ```
 
 ### Workflow
