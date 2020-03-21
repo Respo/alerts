@@ -4,19 +4,7 @@
             [respo-ui.core :as ui]
             [respo.core
              :refer
-             [defcomp
-              cursor->
-              action->
-              list->
-              mutation->
-              <>
-              div
-              button
-              textarea
-              span
-              input
-              a
-              defeffect]]
+             [defcomp list-> <> >> div button textarea span input a defeffect]]
             [respo.comp.space :refer [=<]]
             [respo-alerts.config :refer [dev?]]
             [respo-alerts.style :as style]
@@ -80,11 +68,11 @@
    (if show?
      (div
       {:style (merge ui/fullscreen ui/center style/backdrop),
-       :on-click (fn [e d! m!]
-         (let [event (:event e)] (.stopPropagation event) (on-read! e d! m!) (on-close! m!)))}
+       :on-click (fn [e d!]
+         (let [event (:event e)] (.stopPropagation event) (on-read! e d!) (on-close! d!)))}
       (div
        {:style (merge ui/column style/card ui/global {:line-height "32px"}),
-        :on-click (fn [e d! m!] )}
+        :on-click (fn [e d!] )}
        (div {} (<> (or (:text options) "Alert!")))
        (=< nil 8)
        (div
@@ -93,24 +81,26 @@
         (button
          {:style style/button,
           :class-name schema/confirm-button-name,
-          :on-click (fn [e d! m!] (on-read! e d! m!) (on-close! m!))}
+          :on-click (fn [e d!] (on-read! e d!) (on-close! d!))}
          (<> (or (:button-text options) "Read"))))))))])
 
 (defcomp
  comp-alert
  (states options on-read!)
  (assert (fn? on-read!) "require a callback function")
- (let [trigger (:trigger options), state (or (:data states) {:show? false})]
+ (let [trigger (:trigger options)
+       cursor (:cursor states)
+       state (or (:data states) {:show? false})]
    (assert (map? trigger) "need to use an element as trigger")
    (span
     {:style (merge {:cursor :pointer, :display :inline-block} (:style options)),
-     :on-click (fn [e d! m!] (m! (assoc state :show? true)))}
+     :on-click (fn [e d!] (d! cursor (assoc state :show? true)))}
     trigger
     (comp-alert-modal
      options
      (:show? state)
      on-read!
-     (fn [m!] (m! %cursor (assoc state :show? false)))))))
+     (fn [d!] (d! cursor (assoc state :show? false)))))))
 
 (defcomp
  comp-confirm-modal
@@ -122,10 +112,10 @@
    (if show?
      (div
       {:style (merge ui/fullscreen ui/center style/backdrop),
-       :on-click (fn [e d! m!] (on-close! m!))}
+       :on-click (fn [e d!] (on-close! d!))}
       (div
        {:style (merge ui/column ui/global style/card {:line-height "32px"}),
-        :on-click (fn [e d! m!] )}
+        :on-click (fn [e d!] )}
        (div {} (<> (or (:text options) "Confirm?")))
        (=< nil 8)
        (div
@@ -134,24 +124,26 @@
         (button
          {:style style/button,
           :class-name schema/confirm-button-name,
-          :on-click (fn [e d! m!] (on-confirm! e d! m!) (on-close! m!))}
+          :on-click (fn [e d!] (on-confirm! e d!) (on-close! d!))}
          (<> (or (:button-text options) "Confirm"))))))))])
 
 (defcomp
  comp-confirm
  (states options on-confirm!)
  (assert (fn? on-confirm!) "require a callback function")
- (let [trigger (:trigger options), state (or (:data states) {:show? false})]
+ (let [trigger (:trigger options)
+       cursor (:cursor states)
+       state (or (:data states) {:show? false})]
    (assert (map? trigger) "need to use an element as trigger")
    (span
     {:style (merge {:cursor :pointer, :display :inline-block} (:style options)),
-     :on-click (fn [e d! m!] (m! (assoc state :show? true)))}
+     :on-click (fn [e d!] (d! cursor (assoc state :show? true)))}
     trigger
     (comp-confirm-modal
      options
      (:show? state)
      on-confirm!
-     (fn [m!] (m! %cursor (assoc state :show? false)))))))
+     (fn [d!] (d! cursor (assoc state :show? false)))))))
 
 (defcomp
  comp-modal
@@ -162,8 +154,8 @@
    (if show?
      (div
       {:style (merge ui/fullscreen ui/center style/backdrop),
-       :on-click (fn [e d! m!]
-         (let [event (:event e)] (.stopPropagation event) (on-close! m!)))}
+       :on-click (fn [e d!]
+         (let [event (:event e)] (.stopPropagation event) (on-close! d!)))}
       (div
        {:style (merge
                 ui/global
@@ -171,7 +163,7 @@
                 style/card
                 {:padding 0, :line-height "32px"}
                 (:style options)),
-        :on-click (fn [e d! m!] )}
+        :on-click (fn [e d!] )}
        (let [title (:title options)]
          (if (some? title) (div {:style (merge ui/center {:padding "8px"})} (<> title))))
        (renderer)))))])
@@ -192,8 +184,8 @@
    (if show?
      (div
       {:style (merge ui/fullscreen ui/center style/backdrop),
-       :on-click (fn [e d! m!]
-         (let [event (:event e)] (.stopPropagation event) (on-close! m!)))}
+       :on-click (fn [e d!]
+         (let [event (:event e)] (.stopPropagation event) (on-close! d!)))}
       (div
        {:style (merge
                 ui/column
@@ -201,7 +193,7 @@
                 style/card
                 {:padding 0, :line-height "32px"}
                 (:style options)),
-        :on-click (fn [e d! m!] )}
+        :on-click (fn [e d!] )}
        (let [title (:title options)]
          (if (some? title)
            (div
@@ -216,7 +208,7 @@
               (fn [item]
                 [(:value item)
                  (div
-                  {:style style-menu-item, :on-click (fn [e d! m!] (on-select! item d! m!))}
+                  {:style style-menu-item, :on-click (fn [e d!] (on-select! item d!))}
                   (let [display (:display item)]
                     (if (string? display) (<> display) display)))]))))))))])
 
@@ -230,17 +222,18 @@
  comp-prompt-modal
  (states options show? on-finish! on-close!)
  (let [initial-text (or (:initial options) "")
+       cursor (:cursor states)
        state (or (:data states) {:text initial-text, :failure nil})
        text (or (:text state) initial-text)
-       check-submit! (fn [d! m!]
+       check-submit! (fn [d!]
                        (let [validator (:validator options)
                              result (if (fn? validator) (validator text) nil)]
                          (if (some? result)
-                           (m! (assoc state :failure result))
+                           (d! cursor (assoc state :failure result))
                            (do
-                            (on-finish! text d! m!)
-                            (on-close! m!)
-                            (m! (assoc state :text nil :failure nil))))))]
+                            (on-finish! text d!)
+                            (on-close! d!)
+                            (d! cursor (assoc state :text nil :failure nil))))))]
    [(effect-select (str "." schema/input-box-name) show?)
     (effect-fade show?)
     (div
@@ -253,22 +246,24 @@
                  ui/center
                  style/backdrop
                  {:line-height "32px"}),
-         :on-click (fn [e d! m!] (on-close! m!) (m! (assoc state :text nil :failure nil)))}
+         :on-click (fn [e d!]
+           (on-close! d!)
+           (d! cursor (assoc state :text nil :failure nil)))}
         (div
          {:style (merge ui/column ui/global style/card {:line-height "32px"}),
-          :on-click (fn [e d! m!] )}
+          :on-click (fn [e d!] )}
          (div {} (<> (or (:text options) "Type in text")))
          (=< nil 8)
          (div
           {}
           (let [props {:class-name schema/input-box-name,
                        :value text,
-                       :on-input (fn [e d! m!] (m! (assoc state :text (:value e)))),
-                       :on-keydown (fn [e d! m!]
+                       :on-input (fn [e d!] (d! cursor (assoc state :text (:value e)))),
+                       :on-keydown (fn [e d!]
                          (when (and (not= 229 (:keycode e)) (= (:key e) "Enter"))
                            (if (:multiline? options)
-                             (when (.-metaKey (:event e)) (check-submit! d! m!))
-                             (check-submit! d! m!)))),
+                             (when (.-metaKey (:event e)) (check-submit! d!))
+                             (check-submit! d!)))),
                        :placeholder (or (:placeholder options) "")}]
             (if (:multiline? options)
               (textarea
@@ -291,27 +286,27 @@
               :inner-text failure})
             (span nil))
           (button
-           {:style style/button, :on-click (fn [e d! m!] (check-submit! d! m!))}
+           {:style style/button, :on-click (fn [e d!] (check-submit! d!))}
            (<> (or (:button-text options) "Finish"))))))))]))
 
 (defcomp
  comp-prompt
  (states options on-finish!)
  (assert (fn? on-finish!) "on-finish! a callback function")
- (let [trigger (:trigger options), state (or (:data states) {:show? false, :failure nil})]
+ (let [trigger (:trigger options)
+       cursor (:cursor states)
+       state (or (:data states) {:show? false, :failure nil})]
    (assert (map? trigger) "need to use an element as trigger")
    (span
     {:style (merge {:cursor :pointer, :display :inline-block} (:style options)),
-     :on-click (fn [e d! m!] (m! (assoc state :show? true)))}
+     :on-click (fn [e d!] (d! cursor (assoc state :show? true)))}
     trigger
-    (cursor->
-     :modal
-     comp-prompt-modal
-     states
+    (comp-prompt-modal
+     (>> states :modal)
      options
      (:show? state)
      on-finish!
-     (fn [m!] (m! %cursor (assoc state :show? false)))))))
+     (fn [d!] (d! cursor (assoc state :show? false)))))))
 
 (defcomp
  comp-select-modal
@@ -322,11 +317,11 @@
    (if show?
      (div
       {:style (merge ui/fullscreen ui/center style/backdrop),
-       :on-click (fn [e d! m!]
-         (let [event (:event e)] (.stopPropagation event) (on-read! nil d! m!) (on-close m!)))}
+       :on-click (fn [e d!]
+         (let [event (:event e)] (.stopPropagation event) (on-read! nil d!) (on-close d!)))}
       (div
        {:style (merge ui/column ui/global style/card {:line-height "32px"}),
-        :on-click (fn [e d! m!] )}
+        :on-click (fn [e d!] )}
        (div
         {:style ui/row-parted}
         (<>
@@ -334,7 +329,7 @@
          {:font-family ui/font-fancy, :color (hsl 0 0 60)})
         (a
          {:style (merge ui/link {:font-family ui/font-fancy}),
-          :on-click (fn [e d! m!] (on-read! nil d! m!) (on-close m!))}
+          :on-click (fn [e d!] (on-read! nil d!) (on-close d!))}
          (<> "Clear")))
        (=< nil 8)
        (if (empty? candidates)
@@ -355,7 +350,7 @@
                                 :padding "0 8px"}
                                (when (= selected-value (:value candidate))
                                  {:background-color (hsl 0 0 96)})),
-                       :on-click (fn [e d! m!] (on-read! value d! m!) (on-close m!))}
+                       :on-click (fn [e d!] (on-read! value d!) (on-close d!))}
                       (<> (or display "<default display>")))]))))))
        (=< nil 8)))))])
 
@@ -364,10 +359,10 @@
  (states selected-value candidates options on-read!)
  (assert (fn? on-read!) "require a callback function")
  (assert (sequential? candidates) "candidates should be a list")
- (let [state (or (:data states) {:show? false})]
+ (let [cursor (:cursor states), state (or (:data states) {:show? false})]
    (span
     {:style (merge {:cursor :pointer, :display :inline-block} (:style options)),
-     :on-click (fn [e d! m!] (m! (assoc state :show? true)))}
+     :on-click (fn [e d!] (d! cursor (assoc state :show? true)))}
     (let [selected (first
                     (filter (fn [option] (= selected-value (:value option))) candidates))]
       (if (some? selected)
@@ -383,4 +378,4 @@
      options
      (:show? state)
      on-read!
-     (fn [m!] (m! %cursor (assoc state :show? false)))))))
+     (fn [d!] (d! cursor (assoc state :show? false)))))))
