@@ -9,7 +9,7 @@ Alerts
 [![Clojars Project](https://img.shields.io/clojars/v/respo/alerts.svg)](https://clojars.org/respo/alerts)
 
 ```edn
-[respo/alerts "0.5.0-a1"]
+[respo/alerts "0.5.0-a2"]
 ```
 
 This library provides several UI components, so you need to control their visibilities with your own states, for example: `{:show-alert? true}`.
@@ -27,7 +27,7 @@ Since every component has its own internal states, I use `>>` in all examples:
           {:trigger (comp-buttom "trigger"),
            :text "message text",
            :style {}}
-           (fn [e dispatch! mutate!]
+           (fn [e dispatch!]
                (dispatch! :some/action "data")))
 ```
 
@@ -38,7 +38,7 @@ Since every component has its own internal states, I use `>>` in all examples:
           {:trigger (comp-button "trigger"),
            :text "message text"
            :style {}}
-          (fn [e dispatch! mutate!]
+          (fn [e dispatch!]
               (dispatch! :some/action "data")
               (println "confirmed!")))
 ```
@@ -58,7 +58,7 @@ Since every component has its own internal states, I use `>>` in all examples:
            :validator (fn [x] (if (string/blank? x) "Blank failed" nil))}
           (fn [result dispatch! mutate!]
               (dispatch! :some/action "data")
-              (mutate! %cursor (assoc state :show-prompt? false))
+              (dispatch! cursor (assoc state :show-prompt? false))
               (println "finish editing!" result)))
 ```
 
@@ -97,6 +97,29 @@ Since every component has its own internal states, I use `>>` in all examples:
   (fn [result d!]
     (println "result" result)
     (d! cursor (assoc state :show-modal-menu? false)))))
+```
+
+### Hooks usages
+
+Hooks style API is provided, very briefly:
+
+* `use-alert`
+* `use-confirm`
+* `use-select`
+* `use-modal`
+* `use-modal-menu`
+
+```clojure
+(let [prompt-plugin (use-prompt (>> states :prompt) {:title "demo"})]
+
+
+ (button
+  {:inner-text "show prompt",
+   :style ui/button,
+   :on-click (fn [e d!]
+     ((:show prompt-plugin) d! (fn [text] (println "read from prompt" (pr-str text)))))})
+
+  (:ui prompt-plugin))
 ```
 
 ### Workflow

@@ -14,6 +14,10 @@
             [clojure.string :as string]
             [cumulo-util.core :refer [delay!]]))
 
+(defonce *next-confirm-task (atom nil))
+
+(defonce *next-prompt-task (atom nil))
+
 (defeffect
  effect-fade
  (show?)
@@ -147,15 +151,14 @@
 
 (defcomp
  comp-modal
- (show? options on-close! renderer)
+ (options show? on-close)
  [(effect-fade show?)
   (div
    {:style (merge {:position :absolute} (:container-style options))}
    (if show?
      (div
       {:style (merge ui/fullscreen ui/center style/backdrop),
-       :on-click (fn [e d!]
-         (let [event (:event e)] (.stopPropagation event) (on-close! d!)))}
+       :on-click (fn [e d!] (let [event (:event e)] (.stopPropagation event) (on-close d!)))}
       (div
        {:style (merge
                 ui/global
@@ -166,7 +169,7 @@
         :on-click (fn [e d!] )}
        (let [title (:title options)]
          (if (some? title) (div {:style (merge ui/center {:padding "8px"})} (<> title))))
-       (renderer)))))])
+       ((:render-body options))))))])
 
 (def style-menu-item
   {:border-top (str "1px solid " (hsl 0 0 90)),
@@ -177,7 +180,7 @@
 
 (defcomp
  comp-modal-menu
- (show? options menu-items on-close! on-select!)
+ (options show? on-close! on-select!)
  [(effect-fade show?)
   (div
    {}
@@ -203,7 +206,7 @@
             (<> title))))
        (list->
         {}
-        (->> menu-items
+        (->> (:items options)
              (map
               (fn [item]
                 [(:value item)
@@ -379,3 +382,42 @@
      (:show? state)
      on-read!
      (fn [d!] (d! cursor (assoc state :show? false)))))))
+
+(defn use-alert [states options]
+  (let [cursor (:cursor states)
+        state (or (:data states) {:show? false})
+        on-read (or (:on-read options) (fn [d!] (d! cursor (assoc state :show? false))))]
+    {:ui (comp-alert-modal
+          options
+          (:show? state)
+          on-read
+          (fn [d!] (d! cursor (assoc state :show? false)))),
+     :show (fn [d!] (d! cursor (assoc state :show? true)))}))
+
+(defn use-confirm [states options]
+  (let [cursor (:cursor states), state (or (:data states) {:show? false})]
+    {:ui (comp-confirm-modal
+          options
+          (:show? state)
+          (fn [e d!]
+            (if (some? @*next-confirm-task) (@*next-confirm-task))
+            (reset! *next-confirm-task nil))
+          (fn [d!] (d! cursor (assoc state :show? false)) (reset! *next-confirm-task nil))),
+     :show (fn [d! next-task]
+       (reset! *next-confirm-task next-task)
+       (d! cursor (assoc state :show? true)))}))
+
+(defn use-prompt [states options]
+  (let [cursor (:cursor states), state (or (:data states) {:show? false, :failure nil})]
+    {:ui (comp-prompt-modal
+          (>> states :modal)
+          options
+          (:show? state)
+          (fn [text d!]
+            (if (some? @*next-prompt-task) (@*next-prompt-task text))
+            (reset! *next-prompt-task nil)
+            (d! cursor (assoc state :show? false)))
+          (fn [d!] (d! cursor (assoc state :show? false)) (reset! *next-prompt-task nil))),
+     :show (fn [d! next-task]
+       (reset! *next-prompt-task next-task)
+       (d! cursor (assoc state :show? true)))}))
