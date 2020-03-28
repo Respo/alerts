@@ -12,6 +12,91 @@ Alerts
 [respo/alerts "0.5.0"]
 ```
 
+### Hooks usages
+
+```clojure
+[respo-alerts.core :refer [use-alert use-prompt use-confirm]]
+```
+
+#### `use-alert`
+
+```clojure
+{:trigger (comp-buttom "trigger"),
+ :text "message text",
+ :style {}}
+```
+
+```clojure
+(let [alert-plugin (use-alert (>> states :alert) {:title "demo"})]
+ (button
+  {:on-click (fn [e d!] ((:show alert-plugin) d!))}))
+```
+
+#### `use-confirm`
+
+```clojure
+{:trigger (comp-button "trigger"),
+ :text "message text"
+ :style {}
+```
+
+```clojure
+(let [confirm-plugin (use-confirm (>> states :alert) {:title "demo"})]
+ (button
+  {:on-click (fn [e d!] ((:show confirm-plugin) d! (fn [] (println "after confirmed"))))}))
+```
+
+#### `use-prompt`
+
+```clojure
+{:trigger (comp-button "trigger"),
+ :text "message text",
+ :style {}
+ :input-style {}
+ :multiline? false
+ :initial "default text"
+ :placeholder "input"
+ :button-text "Submit"
+ :validator (fn [x] (if (string/blank? x) "Blank failed" nil))}
+```
+
+```clojure
+(let [prompt-plugin (use-prompt (>> states :prompt) {:title "demo"})]
+  (button {:on-click (fn [e d!]
+            ((:show prompt-plugin) d! (fn [text] (println "read from prompt" (pr-str text)))))})
+  (:ui prompt-plugin))
+```
+
+#### `use-modal`
+
+```clojure
+(let [demo-modal (use-modal
+                   (>> states :modal)
+                   {:title "demo",
+                    :style {:width 400},
+                    :container-style {},
+                    :render-body (fn [] (div {} (<> "Place for child content")))})])
+((:show demo-modal) d!)
+```
+
+#### `use-modal-menu`
+
+```clojure
+(let [demo-modal-menu (use-modal-menu
+                        (>> states :modal-menu)
+                        {:title "Demo",
+                         :style {:width 300},
+                         :items [{:value "a", :display "A"}
+                                 {:value "b", :display (div {} (<> "B"))}],
+                         :on-result (fn [result d!] (println "got result" result))})])
+
+((:show demo-modal-menu) d!)
+```
+
+> No hooks API for `comp-select` yet.
+
+### Components
+
 This library provides several UI components, so you need to control their visibilities with your own states, for example: `{:show-alert? true}`.
 
 ```clojure
@@ -97,29 +182,6 @@ Since every component has its own internal states, I use `>>` in all examples:
   (fn [result d!]
     (println "result" result)
     (d! cursor (assoc state :show-modal-menu? false)))))
-```
-
-### Hooks usages
-
-Hooks style API is provided, very briefly:
-
-* `use-alert`
-* `use-confirm`
-* `use-select`
-* `use-modal`
-* `use-modal-menu`
-
-```clojure
-(let [prompt-plugin (use-prompt (>> states :prompt) {:title "demo"})]
-
-
- (button
-  {:inner-text "show prompt",
-   :style ui/button,
-   :on-click (fn [e d!]
-     ((:show prompt-plugin) d! (fn [text] (println "read from prompt" (pr-str text)))))})
-
-  (:ui prompt-plugin))
 ```
 
 ### Workflow
