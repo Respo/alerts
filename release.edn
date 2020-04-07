@@ -1,4 +1,4 @@
-{:version "0.5.0"
+{:version "0.5.1-a1"
  :group-id "respo"
  :artifact-id "alerts"
  :skip-tag true
