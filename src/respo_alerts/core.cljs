@@ -68,7 +68,7 @@
  [(effect-focus (str "." schema/confirm-button-name) show?)
   (effect-fade show?)
   (div
-   {}
+   {:style {:position :absolute}}
    (if show?
      (div
       {:style (merge ui/fullscreen ui/center style/backdrop),
@@ -112,7 +112,7 @@
  [(effect-focus (str "." schema/confirm-button-name) show?)
   (effect-fade show?)
   (div
-   {}
+   {:style {:position :absolute}}
    (if show?
      (div
       {:style (merge ui/fullscreen ui/center style/backdrop),
@@ -240,7 +240,7 @@
    [(effect-select (str "." schema/input-box-name) show?)
     (effect-fade show?)
     (div
-     {}
+     {:style {:position :absolute}}
      (if show?
        (div
         {:style (merge

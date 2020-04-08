@@ -9,7 +9,7 @@ Alerts
 [![Clojars Project](https://img.shields.io/clojars/v/respo/alerts.svg)](https://clojars.org/respo/alerts)
 
 ```edn
-[respo/alerts "0.5.0"]
+[respo/alerts "0.5.1-a1"]
 ```
 
 ### Hooks usages
