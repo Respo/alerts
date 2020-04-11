@@ -1,6 +1,7 @@
-{:version "0.5.1-a1"
- :group-id "respo"
- :artifact-id "alerts"
- :skip-tag true
- :description "Respo alerts library."
+{:version "0.5.1",
+ :group-id "respo",
+ :artifact-id "alerts",
+ :skip-tag true,
+ :description "Respo alerts library.",
  :scm-url "https://github.com/Respo/alerts"}
+
