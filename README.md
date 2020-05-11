@@ -23,7 +23,8 @@ Alerts
 ```clojure
 {:trigger (comp-buttom "trigger"),
  :text "message text",
- :style {}}
+ :style {}
+ :card-style {}}
 ```
 
 ```clojure
@@ -38,6 +39,7 @@ Alerts
 {:trigger (comp-button "trigger"),
  :text "message text"
  :style {}
+ :card-style {}}
 ```
 
 ```clojure
@@ -53,6 +55,7 @@ Alerts
  :text "message text",
  :style {}
  :input-style {}
+ :card-style {}
  :multiline? false
  :initial "default text"
  :placeholder "input"
@@ -111,7 +114,8 @@ Since every component has its own internal states, I use `>>` in all examples:
 (comp-alert (>> states :alerts)
           {:trigger (comp-buttom "trigger"),
            :text "message text",
-           :style {}}
+           :style {}
+           :card-style {}}
            (fn [e dispatch!]
                (dispatch! :some/action "data")))
 ```
@@ -122,7 +126,8 @@ Since every component has its own internal states, I use `>>` in all examples:
 (comp-confirm (>> states :confirm)
           {:trigger (comp-button "trigger"),
            :text "message text"
-           :style {}}
+           :style {}
+           :card-style {}}
           (fn [e dispatch!]
               (dispatch! :some/action "data")
               (println "confirmed!")))
@@ -136,11 +141,13 @@ Since every component has its own internal states, I use `>>` in all examples:
            :text "message text",
            :style {}
            :input-style {}
+           :card-style {}
            :multiline? false
            :initial "default text"
            :placeholder "input"
            :button-text "Submit"
-           :validator (fn [x] (if (string/blank? x) "Blank failed" nil))}
+           :validator (fn [x] (if (string/blank? x) "Blank failed" nil))
+           :card-style {}}
           (fn [result dispatch! mutate!]
               (dispatch! :some/action "data")
               (dispatch! cursor (assoc state :show-prompt? false))
