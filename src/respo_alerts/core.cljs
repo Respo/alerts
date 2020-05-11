@@ -65,6 +65,7 @@
 (defcomp
  comp-alert-modal
  (options show? on-read! on-close!)
+ (println "vsrd" options)
  [(effect-focus (str "." schema/confirm-button-name) show?)
   (effect-fade show?)
   (div
@@ -75,7 +76,12 @@
        :on-click (fn [e d!]
          (let [event (:event e)] (.stopPropagation event) (on-read! e d!) (on-close! d!)))}
       (div
-       {:style (merge ui/column style/card ui/global {:line-height "32px"}),
+       {:style (merge
+                ui/column
+                style/card
+                ui/global
+                {:line-height "32px"}
+                (:card-style options)),
         :on-click (fn [e d!] )}
        (div {} (<> (or (:text options) "Alert!")))
        (=< nil 8)
@@ -118,7 +124,12 @@
       {:style (merge ui/fullscreen ui/center style/backdrop),
        :on-click (fn [e d!] (on-close! d!))}
       (div
-       {:style (merge ui/column ui/global style/card {:line-height "32px"}),
+       {:style (merge
+                ui/column
+                ui/global
+                style/card
+                {:line-height "32px"}
+                (:card-style options)),
         :on-click (fn [e d!] )}
        (div {} (<> (or (:text options) "Confirm?")))
        (=< nil 8)
@@ -253,7 +264,12 @@
            (on-close! d!)
            (d! cursor (assoc state :text nil :failure nil)))}
         (div
-         {:style (merge ui/column ui/global style/card {:line-height "32px"}),
+         {:style (merge
+                  ui/column
+                  ui/global
+                  style/card
+                  {:line-height "32px"}
+                  (:card-style options)),
           :on-click (fn [e d!] )}
          (div {} (<> (or (:text options) "Type in text")))
          (=< nil 8)

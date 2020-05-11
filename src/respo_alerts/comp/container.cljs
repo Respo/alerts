@@ -78,7 +78,7 @@
  comp-hooks-usages
  (states)
  (let [alert-plugin (use-alert (>> states :alert) {:title "demo"})
-       confirm-plugin (use-confirm (>> states :alert) {:title "demo"})
+       confirm-plugin (use-confirm (>> states :confirm) {:title "demo"})
        prompt-plugin (use-prompt (>> states :prompt) {:title "demo"})]
    (div
     {}
