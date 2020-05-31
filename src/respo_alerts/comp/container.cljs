@@ -17,29 +17,15 @@
               comp-modal-menu
               use-alert
               use-confirm
-              use-prompt]]
+              use-prompt
+              use-modal
+              use-modal-menu]]
             [respo.comp.inspect :refer [comp-inspect]]
             [respo-alerts.style :as style]
             [clojure.string :as string]
             [cljs.reader :refer [read-string]]))
 
 (defcomp comp-button (text) (button {:style style/button} (<> text)))
-
-(defn use-modal [states options]
-  (let [cursor (:cursor states), state (or (:data states) {:show? false})]
-    {:ui (comp-modal options (:show? state) (fn [d!] (d! cursor (assoc state :show? false)))),
-     :show (fn [d!] (d! cursor (assoc state :show? true)))}))
-
-(defn use-modal-menu [states options]
-  (let [cursor (:cursor states), state (or (:data states) {:show? false})]
-    {:ui (comp-modal-menu
-          options
-          (:show? state)
-          (fn [d!] (d! cursor (assoc state :show? false)))
-          (fn [result d!]
-            ((:on-result options) result d!)
-            (d! cursor (assoc state :show? false)))),
-     :show (fn [d!] (d! cursor (assoc state :show? true)))}))
 
 (defcomp
  comp-controlled-modals
