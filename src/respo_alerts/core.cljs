@@ -65,7 +65,6 @@
 (defcomp
  comp-alert-modal
  (options show? on-read! on-close!)
- (println "vsrd" options)
  [(effect-focus (str "." schema/confirm-button-name) show?)
   (effect-fade show?)
   (div
@@ -180,7 +179,7 @@
         :on-click (fn [e d!] )}
        (let [title (:title options)]
          (if (some? title) (div {:style (merge ui/center {:padding "8px"})} (<> title))))
-       ((:render-body options))))))])
+       ((:render-body options) on-close)))))])
 
 (def style-menu-item
   {:border-top (str "1px solid " (hsl 0 0 90)),
@@ -426,7 +425,8 @@
 (defn use-modal [states options]
   (let [cursor (:cursor states), state (or (:data states) {:show? false})]
     {:ui (comp-modal options (:show? state) (fn [d!] (d! cursor (assoc state :show? false)))),
-     :show (fn [d!] (d! cursor (assoc state :show? true)))}))
+     :show (fn [d!] (d! cursor (assoc state :show? true))),
+     :close (fn [d!] (d! cursor (assoc state :show? true)))}))
 
 (defn use-modal-menu [states options]
   (let [cursor (:cursor states), state (or (:data states) {:show? false})]

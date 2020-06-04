@@ -35,7 +35,14 @@
                    {:title "demo",
                     :style {:width 400},
                     :container-style {},
-                    :render-body (fn [] (div {} (<> "Place for child content")))})
+                    :render-body (fn [on-close]
+                      (div
+                       {}
+                       (<> "Place for child content")
+                       (button
+                        {:style ui/button,
+                         :inner-text "Close",
+                         :on-click (fn [e d!] (on-close d!))})))})
        demo-modal-menu (use-modal-menu
                         (>> states :modal-menu)
                         {:title "Demo",
