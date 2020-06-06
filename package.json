@@ -1,6 +1,6 @@
 {
   "name": "respo-alerts",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Respo alerts library",
   "main": "index.js",
   "scripts": {
@@ -20,7 +20,7 @@
   "author": "jiyinyiyong",
   "license": "MIT",
   "devDependencies": {
-    "shadow-cljs": "^2.9.10"
+    "shadow-cljs": "^2.10.3"
   },
   "dependencies": {
     "shortid": "^2.2.15"
