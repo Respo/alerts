@@ -179,7 +179,10 @@
         :on-click (fn [e d!] )}
        (let [title (:title options)]
          (if (some? title) (div {:style (merge ui/center {:padding "8px"})} (<> title))))
-       ((:render-body options) on-close)))))])
+       (cond
+         (some? (:render options)) ((:render options) on-close)
+         (some? (:render-body options)) ((:render-body options) on-close)
+         :else "TODO render body")))))])
 
 (def style-menu-item
   {:border-top (str "1px solid " (hsl 0 0 90)),

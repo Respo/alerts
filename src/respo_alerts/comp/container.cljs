@@ -35,7 +35,7 @@
                    {:title "demo",
                     :style {:width 400},
                     :container-style {},
-                    :render-body (fn [on-close]
+                    :render (fn [on-close]
                       (div
                        {}
                        (<> "Place for child content")
