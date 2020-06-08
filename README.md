@@ -78,7 +78,7 @@ Alerts
                    {:title "demo",
                     :style {:width 400},
                     :container-style {},
-                    :render-body (fn [on-close] (div {} (<> "Place for child content")))})])
+                    :render (fn [on-close] (div {} (<> "Place for child content")))})])
 ((:show demo-modal) d!)
 ```
 
@@ -174,7 +174,7 @@ Since every component has its own internal states, I use `>>` in all examples:
 ```clojure
 (let [on-close (fn [d!] (d! cursor (assoc state :show? false)))]
  (comp-modal
-  (:show? state, :render-body (fn [on-close] (div {} (<> "Place for child content"))))
+  {:show? state, :render (fn [on-close] (div {} (<> "Place for child content")))}
   {:title "Demo", :style {:width 400}, :container-style {}}
   on-close))
 ```
