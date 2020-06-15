@@ -4,7 +4,7 @@
             [respo-ui.core :as ui]
             [respo.core
              :refer
-             [defcomp list-> <> >> div button textarea span input a defeffect]]
+             [defcomp defplugin list-> <> >> div button textarea span input a defeffect]]
             [respo.comp.space :refer [=<]]
             [respo-alerts.config :refer [dev?]]
             [respo-alerts.style :as style]
@@ -401,58 +401,68 @@
      on-read!
      (fn [d!] (d! cursor (assoc state :show? false)))))))
 
-(defn use-alert [states options]
-  (let [cursor (:cursor states)
-        state (or (:data states) {:show? false})
-        on-read (or (:on-read options) (fn [d!] (d! cursor (assoc state :show? false))))]
-    {:ui (comp-alert-modal
-          options
-          (:show? state)
-          on-read
-          (fn [d!] (d! cursor (assoc state :show? false)))),
-     :show (fn [d!] (d! cursor (assoc state :show? true)))}))
+(defplugin
+ use-alert
+ (states options)
+ (let [cursor (:cursor states)
+       state (or (:data states) {:show? false})
+       on-read (or (:on-read options) (fn [d!] (d! cursor (assoc state :show? false))))]
+   {:ui (comp-alert-modal
+         options
+         (:show? state)
+         on-read
+         (fn [d!] (d! cursor (assoc state :show? false)))),
+    :show (fn [d!] (d! cursor (assoc state :show? true)))}))
 
-(defn use-confirm [states options]
-  (let [cursor (:cursor states), state (or (:data states) {:show? false})]
-    {:ui (comp-confirm-modal
-          options
-          (:show? state)
-          (fn [e d!]
-            (if (some? @*next-confirm-task) (@*next-confirm-task))
-            (reset! *next-confirm-task nil))
-          (fn [d!] (d! cursor (assoc state :show? false)) (reset! *next-confirm-task nil))),
-     :show (fn [d! next-task]
-       (reset! *next-confirm-task next-task)
-       (d! cursor (assoc state :show? true)))}))
+(defplugin
+ use-confirm
+ (states options)
+ (let [cursor (:cursor states), state (or (:data states) {:show? false})]
+   {:ui (comp-confirm-modal
+         options
+         (:show? state)
+         (fn [e d!]
+           (if (some? @*next-confirm-task) (@*next-confirm-task))
+           (reset! *next-confirm-task nil))
+         (fn [d!] (d! cursor (assoc state :show? false)) (reset! *next-confirm-task nil))),
+    :show (fn [d! next-task]
+      (reset! *next-confirm-task next-task)
+      (d! cursor (assoc state :show? true)))}))
 
-(defn use-modal [states options]
-  (let [cursor (:cursor states), state (or (:data states) {:show? false})]
-    {:ui (comp-modal options (:show? state) (fn [d!] (d! cursor (assoc state :show? false)))),
-     :show (fn [d!] (d! cursor (assoc state :show? true))),
-     :close (fn [d!] (d! cursor (assoc state :show? true)))}))
+(defplugin
+ use-modal
+ (states options)
+ (let [cursor (:cursor states), state (or (:data states) {:show? false})]
+   {:ui (comp-modal options (:show? state) (fn [d!] (d! cursor (assoc state :show? false)))),
+    :show (fn [d!] (d! cursor (assoc state :show? true))),
+    :close (fn [d!] (d! cursor (assoc state :show? true)))}))
 
-(defn use-modal-menu [states options]
-  (let [cursor (:cursor states), state (or (:data states) {:show? false})]
-    {:ui (comp-modal-menu
-          options
-          (:show? state)
-          (fn [d!] (d! cursor (assoc state :show? false)))
-          (fn [result d!]
-            ((:on-result options) result d!)
-            (d! cursor (assoc state :show? false)))),
-     :show (fn [d!] (d! cursor (assoc state :show? true)))}))
+(defplugin
+ use-modal-menu
+ (states options)
+ (let [cursor (:cursor states), state (or (:data states) {:show? false})]
+   {:ui (comp-modal-menu
+         options
+         (:show? state)
+         (fn [d!] (d! cursor (assoc state :show? false)))
+         (fn [result d!]
+           ((:on-result options) result d!)
+           (d! cursor (assoc state :show? false)))),
+    :show (fn [d!] (d! cursor (assoc state :show? true)))}))
 
-(defn use-prompt [states options]
-  (let [cursor (:cursor states), state (or (:data states) {:show? false, :failure nil})]
-    {:ui (comp-prompt-modal
-          (>> states :modal)
-          options
-          (:show? state)
-          (fn [text d!]
-            (if (some? @*next-prompt-task) (@*next-prompt-task text))
-            (reset! *next-prompt-task nil)
-            (d! cursor (assoc state :show? false)))
-          (fn [d!] (d! cursor (assoc state :show? false)) (reset! *next-prompt-task nil))),
-     :show (fn [d! next-task]
-       (reset! *next-prompt-task next-task)
-       (d! cursor (assoc state :show? true)))}))
+(defplugin
+ use-prompt
+ (states options)
+ (let [cursor (:cursor states), state (or (:data states) {:show? false, :failure nil})]
+   {:ui (comp-prompt-modal
+         (>> states :modal)
+         options
+         (:show? state)
+         (fn [text d!]
+           (if (some? @*next-prompt-task) (@*next-prompt-task text))
+           (reset! *next-prompt-task nil)
+           (d! cursor (assoc state :show? false)))
+         (fn [d!] (d! cursor (assoc state :show? false)) (reset! *next-prompt-task nil))),
+    :show (fn [d! next-task]
+      (reset! *next-prompt-task next-task)
+      (d! cursor (assoc state :show? true)))}))
