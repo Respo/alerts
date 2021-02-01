@@ -21,7 +21,7 @@
 (defeffect
  effect-fade
  (show?)
- (action el *local)
+ (action el at-place?)
  (case action
    :before-update
      (if show?
@@ -59,7 +59,7 @@
 (defeffect
  effect-focus
  (query show?)
- (action el *local)
+ (action el at-place?)
  (case (:update (when show? (focus-element! query))) (do)))
 
 (defcomp
